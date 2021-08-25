@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       semver:
-        description: 'Semantic Version (in format M.m.b)'
+        description: 'Semantic Version (in format Major.Minor.Patch)'
         required: true
 
 jobs:
@@ -31,5 +31,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-            name: myartifact_${{ steps.set-current-branch.outputs.CURRENT_BRANCH }}_${{ github.event.inputs.versionName }}
+            name: myartifact_${{ steps.set-current-branch.outputs.CURRENT_BRANCH }}_${{ github.event.inputs.semver }}
             path: myartifact.txt
