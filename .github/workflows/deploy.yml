@@ -34,10 +34,16 @@ jobs:
       - name: Get lastest artifact url
         id: url
         run: |
-             $myurl = cat artifact-list-file.json | jq '[ .artifacts[] | select( .id == ${{ steps.max_id.outputs.MAX_ID }} ) | .archive_download_url ]'
+             $myurl = cat artifact-list-file.json | jq '.artifacts[] | select( .id == ${{ steps.max_id.outputs.MAX_ID }} ) | .archive_download_url'
              echo "::set-output name=URL::$myurl"
+             
+      - name: Download artifact
+        run: |
+             curl "${{ steps.url.outputs.URL }}"
+             dir
       
       - name: Echo Variables
         run: |
+             echo "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}"
              echo "${{ steps.max_id.outputs.MAX_ID }}"
              echo "${{ steps.url.outputs.URL }}"
