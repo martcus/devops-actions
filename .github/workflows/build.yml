@@ -21,7 +21,10 @@ jobs:
       - name: Build
         run: |
              echo "Executing build"
+             echo "hello artifact" > myartifact.txt
 
       - name: Upload artifact
-        run: |
-             echo "Upload artifact"
+        uses: actions/upload-artifact@v2
+        with:
+            name: myartifact
+            path: myartifact.txt
