@@ -1,5 +1,10 @@
 name: A workflow for build
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      semver:
+        description: 'Semantic Version (in format M.m.b)'
+        required: true
 
 jobs:
   build:
@@ -26,5 +31,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-            name: myartifact
+            name: myartifact_${{ steps.set-current-branch.outputs.CURRENT_BRANCH }}_${{ github.event.inputs.versionName }}
             path: myartifact.txt
