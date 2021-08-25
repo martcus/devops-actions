@@ -29,13 +29,13 @@ jobs:
       - name: Get latest artifact id 
         id: maxId
         run: |
-             $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .expired == false) | .id ] | max'
+             $myid = $(curl -fs https://api.github.com/repos/${{github.repository}}/actions/artifacts) | jq '[ .artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .expired == false) | .id ] | max' 
              echo ::set-output name=MAX_ID::$( $myid )
       
-      - name: Get lastest artifact url
-        id: url
-        run: echo ::set-output name=URL::$( ${{ steps.artifact-list.outputs.ARTIFACT_LIST }} |
-            jq '.artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .id == ${{ steps.maxId.outputs.MAX_ID }} ) | .archive_download_url')
+     # - name: Get lastest artifact url
+     #   id: url
+     #   run: echo ::set-output name=URL::$( ${{ steps.artifact-list.outputs.ARTIFACT_LIST }} |
+     #       jq '.artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .id == ${{ steps.maxId.outputs.MAX_ID }} ) | .archive_download_url')
       
       - run: echo "${{ steps.maxId.outputs.maxId }}"
       - run: echo "${{ steps.url.outputs.URL }}"
