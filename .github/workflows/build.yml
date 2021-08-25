@@ -12,4 +12,4 @@ jobs:
              echo "::set-output name=CURRENT_BRANCH::$(echo $branchName)"
         id: set-current-branch
       - name: Get branch name
-        run: echo 'The branch name is ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }}'
+        run: echo "The branch name is ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
