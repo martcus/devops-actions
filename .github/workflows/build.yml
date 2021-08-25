@@ -12,5 +12,7 @@ jobs:
              $branchName = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
              echo "::set-output name=CURRENT_BRANCH::$(echo $branchName)"
              echo "Running on $branchName "
+             echo running on branch ${GITHUB_REF##*/}
       - name: Get current branch
         run: echo "Current branch is ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
+
