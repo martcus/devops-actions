@@ -9,24 +9,24 @@ jobs:
       - name: Set current branch
         id: set-current-branch
         run: |
+             Get-Date -Format o
              $branchName = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
              echo "::set-output name=CURRENT_BRANCH::$(echo $branchName)"
              echo "Running on $branchName "
              #Linux version: echo "##[set-output name=CURRENT_BRANCH;]$(echo ${GITHUB_REF#refs/heads/})"
-              Get-Date -Format o
               
       - name: Get current branch
-        run: | 
-             echo "Current branch is ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
+        run: |
              Get-Date -Format o
+             echo "Current branch is ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
       
       - name: Build
-        run: | 
-             echo "Executing build"
+        run: |
              Get-Date -Format o
+             echo "Executing build"
              
       - name: Upload artifact
         run: |
-             echo "Upload artifact"
              Get-Date -Format o
+             echo "Upload artifact"
 
