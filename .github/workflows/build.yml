@@ -7,9 +7,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Set current branch
+        id: set-current-branch
         run: |
              $branchName = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
              echo "::set-output name=CURRENT_BRANCH::$(echo $branchName)"
-        id: set-current-branch
+             "Running on ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
       - name: Get branch name
-        run: echo "The branch name is ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
+        run: echo "Running on ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
