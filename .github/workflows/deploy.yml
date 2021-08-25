@@ -28,7 +28,7 @@ jobs:
         id: maxId
         run: |
              echo " ${{ steps.artifact-list.outputs.ARTIFACT_LIST }} " > test.txt
-             $myid = cat test.txt | jq '[ .artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .expired == false) | .id ] | max')
+             $myid = cat test.txt | jq '[ .artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .expired == false) | .id ] | max'
              echo ::set-output name=MAX_ID::$( myid )
       
       - name: Get lastest artifact url
