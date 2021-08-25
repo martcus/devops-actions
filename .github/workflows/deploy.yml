@@ -23,13 +23,12 @@ jobs:
         id: artifact-list
         run: |
              # echo "::set-output name=ARTIFACT_LIST::$(curl -fs https://api.github.com/repos/${{github.repository}}/actions/artifacts)"
-             curl -fs https://api.github.com/repos/${{github.repository}}/actions/artifacts > artifact-list-file.json
-             cat artifact-list-file.json
-            
+             (Invoke-WebRequest -Uri https://api.github.com/repos/${{github.repository}}/actions/artifacts).Content > artifact-list-file.json
+          
       - name: Get latest artifact id 
         id: maxId
         run: |
-             $myid = $(curl -fs https://api.github.com/repos/${{github.repository}}/actions/artifacts) | jq '[ .artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .expired == false) | .id ] | max' 
+             $myid = $( (Invoke-WebRequest -Uri https://api.github.com/repos/${{github.repository}}/actions/artifacts).Content ) | jq '[ .artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .expired == false) | .id ] | max' 
              echo ::set-output name=MAX_ID::$( $myid )
       
      # - name: Get lastest artifact url
