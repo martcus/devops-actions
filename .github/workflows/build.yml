@@ -6,6 +6,10 @@ jobs:
     name: Build
     runs-on: windows-latest
     steps:
-     - name: Branch name
-       run: echo running on branch ${GITHUB_REF##*/}
-
+      - name: SET CURRENT_BRANCH
+        run: |
+             $branchName = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
+             echo "::set-env name=CURRENT_BRANCH::$(echo $branchName)"
+      # print branch name
+      - name: Get branch name
+        run: echo 'The branch name is' $CURRENT_BRANCH
