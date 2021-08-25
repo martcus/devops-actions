@@ -1,5 +1,13 @@
 name: A workflow for deploy
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      semver:
+        description: 'Semantic Version (in format Major.Minor.Patch)'
+        required: true
+      branch:
+        description: 'Branch name'
+        required: true
 
 jobs:
   deploy:
