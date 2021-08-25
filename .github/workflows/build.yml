@@ -9,7 +9,7 @@ jobs:
       - name: SET CURRENT_BRANCH
         run: |
              $branchName = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
+             echo "::set-output name=CURRENT_BRANCH::$(echo $branchName)"
         id: set-current-branch
-      # print branch name
       - name: Get branch name
-        run: echo 'The branch name is' ${{ steps.set-current-branch.outputs.branchName }}
+        run: echo 'The branch name is' ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }}
