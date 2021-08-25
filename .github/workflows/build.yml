@@ -9,7 +9,7 @@ jobs:
       - name: SET CURRENT_BRANCH
         run: |
              $branchName = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
-             echo "::set-env name=CURRENT_BRANCH::$(echo $branchName)"
+             echo "::set-output name=CURRENT_BRANCH::$(echo $branchName)"
       # print branch name
       - name: Get branch name
         run: echo 'The branch name is' $CURRENT_BRANCH
