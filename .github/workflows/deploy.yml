@@ -29,6 +29,7 @@ jobs:
         id: url
         run: |
              $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == \"${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}\" and .expired == false) | .id ] | max' 
+             echo "il mio id $myid "
              $myurl = cat artifact-list-file.json | jq '[ .artifacts[] | select( .id == $myid ) | .archive_download_url ]'
              echo ::set-output name=MAX_ID::$myid
              echo ::set-output name=URL::$myurl
