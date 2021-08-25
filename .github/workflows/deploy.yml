@@ -26,12 +26,12 @@ jobs:
      
       - name: Get latest artifact Id 
         id: maxId
-        run: echo ::set-output name=MAX_ID::$(cat ${{ steps.artifact-list.outputs.ARTIFACT_LIST }} |
+        run: echo ::set-output name=MAX_ID::$( ${{ steps.artifact-list.outputs.ARTIFACT_LIST }} |
             jq '[ .artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .expired == false) | .id ] | max')
       
       - name: Get lastest artifact url
         id: url
-        run: echo ::set-output name=URL::$(cat ${{ steps.artifact-list.outputs.ARTIFACT_LIST }} |
+        run: echo ::set-output name=URL::$( ${{ steps.artifact-list.outputs.ARTIFACT_LIST }} |
             jq '.artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .id == ${{ steps.maxId.outputs.MAX_ID }} ) | .archive_download_url')
       
       - run: echo "${{ steps.maxId.outputs.maxId }}"
