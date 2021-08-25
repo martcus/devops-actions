@@ -26,12 +26,12 @@ jobs:
              (Invoke-WebRequest -Uri https://api.github.com/repos/${{github.repository}}/actions/artifacts).Content > artifact-list-file.json
              
       - name: Get latest artifact URL
-        id: maxId
+        id: url
         run: |
              $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == \"${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}\" and .expired == false) | .id ] | max' 
-             $myurl = cat artifact-list-file.json | jq '.artifacts[] | select(.name == \"${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}\" and .id == $myid ) | .archive_download_url')
+             $myurl = cat artifact-list-file.json | jq '.artifacts[] | select(.name == \"${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}\" and .id == $myid ) | .archive_download_url'
              echo ::set-output name=MAX_ID::$myid
              echo ::set-output name=URL::$myurl
       
-      - run: echo "${{ steps.maxId.outputs.maxId }}"
+      - run: echo "${{ steps.url.outputs.MAX_ID }}"
       - run: echo "${{ steps.url.outputs.URL }}"
