@@ -4,8 +4,8 @@ on: workflow_dispatch
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
-      - run: |
-             echo "Hello Build!"
+     - name: Branch name
+       run: echo running on branch ${GITHUB_REF##*/}
 
