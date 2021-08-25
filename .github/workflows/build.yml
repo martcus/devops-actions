@@ -14,19 +14,19 @@ jobs:
              echo "::set-output name=CURRENT_BRANCH::$(echo $branchName)"
              echo "Running on $branchName "
              #Linux version: echo "##[set-output name=CURRENT_BRANCH;]$(echo ${GITHUB_REF#refs/heads/})"
-              
+             Get-Date -Format o
       - name: Get current branch
         run: |
              Get-Date -Format o
              echo "Current branch is ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
-      
+             Get-Date -Format o
       - name: Build
         run: |
              Get-Date -Format o
              echo "Executing build"
-             
+             Get-Date -Format o
       - name: Upload artifact
         run: |
              Get-Date -Format o
              echo "Upload artifact"
-
+             Get-Date -Format o
