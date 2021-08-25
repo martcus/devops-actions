@@ -14,6 +14,27 @@ jobs:
     name: Deploy
     runs-on: windows-latest
     steps:
-      - run: |
-             jq --help
-
+      - name: Set current artifact name
+        id: current-artifact
+        run: |
+             echo "::set-output name=CURRENT_ARTIFACT::$(echo myartifact_${{ github.event.inputs.branch }}_${{ github.event.inputs.semver }})"
+   
+      - name: Retrieve artifact list
+        id: artifact-list
+        run: |
+             echo "::set-output name=ARTIFACT_LIST::$(curl -fs https://api.github.com/repos/${{github.repository}}/actions/artifacts"
+     
+      - name: Get latest artifact Id 
+        id: maxId
+        run: echo ::set-output name=MAX_ID::$(cat ${{ steps.artifact-list.outputs.ARTIFACT_LIST }} |
+            jq '[ .artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .expired == false) | .id ] | max')
+      
+      - name: Get lastest artifact url
+        id: url
+        run: echo ::set-output name=URL::$(cat ${{ steps.artifact-list.outputs.ARTIFACT_LIST }} |
+            jq '.artifacts[] | select(.name == "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}" and .id == ${{ steps.maxId.outputs.MAX_ID }} ) | .archive_download_url')
+      
+      - run: echo "${{ steps.maxId.outputs.maxId }}"
+      - run: echo "${{ steps.url.outputs.URL }}"
+      - run: echo "URL=${{ steps.url.outputs.URL }}" >> ${{ env.URL }}
+      - run: echo "${{ env.URL }}"
