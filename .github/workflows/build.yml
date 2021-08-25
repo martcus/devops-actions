@@ -6,7 +6,7 @@ jobs:
     name: Build
     runs-on: windows-latest
     steps:
-      - name: SET CURRENT_BRANCH
+      - name: Set current branch
         run: |
              $branchName = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
              echo "::set-output name=CURRENT_BRANCH::$(echo $branchName)"
