@@ -22,7 +22,7 @@ jobs:
       - name: Retrieve artifact list
         id: artifact-list
         run: |
-             echo "::set-output name=ARTIFACT_LIST::$(curl -fs https://api.github.com/repos/${{github.repository}}/actions/artifacts"
+             echo "::set-output name=ARTIFACT_LIST::$(curl -fs https://api.github.com/repos/${{github.repository}}/actions/artifacts)"
      
       - name: Get latest artifact Id 
         id: maxId
