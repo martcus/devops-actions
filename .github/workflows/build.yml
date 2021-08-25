@@ -15,4 +15,10 @@ jobs:
              #Linux version: echo "##[set-output name=CURRENT_BRANCH;]$(echo ${GITHUB_REF#refs/heads/})"
       - name: Get current branch
         run: echo "Current branch is ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
+      
+      - name: Build
+        run: echo "Executing build"
+        
+      - name: Upload artifact
+        run: echo "Upload artifact"
 
