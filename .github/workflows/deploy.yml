@@ -30,6 +30,7 @@ jobs:
         run: |
              $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == \"${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}\" and .expired == false) | .id ] | max' 
              echo ::set-output name=MAX_ID::$( $myid )
+             echo set variable myid = $myid
       
       - name: Get lastest artifact url
         id: url
