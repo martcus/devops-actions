@@ -2,8 +2,8 @@ name: A workflow for quality
 on: workflow_dispatch
 
 jobs:
-  build:
-    name: Hello world action
+  quality:
+    name: Static Code Analysis
     runs-on: ubuntu-latest
     steps:
       - run: |
