@@ -40,11 +40,18 @@ jobs:
       - name: Download artifact
         id: download
         run: |
-             # $Header = @{"Authorization" = "Basic"+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(username[:{ ${{ secrets.ACTIONS_TOKEN }} }]))}
-             # Invoke-RestMethod -Method GET -Header $Header -ContentType "application/json" -SkipCertificateCheck -uri "${{ steps.url.outputs.URL }}"
+             # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
              
-             curl -u martcus:${{ secrets.ACTIONS_TOKEN }} "${{ steps.url.outputs.URL }}"
-             cat "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}"
+             $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
+             $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
+             $Headers = @{
+                Authorization = 'Basic {0}' -f $Base64Token;
+             }
+             $Uri = 'https://api.github.com/repos/martcus/devops-actions/actions/artifacts/86576755/zip'
+ 
+             Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip"
+             
+             dir "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip"
              
       - name: Call script for deploy/rollback
         run: |
