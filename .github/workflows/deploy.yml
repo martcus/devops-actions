@@ -28,19 +28,19 @@ jobs:
              # echo "::set-output name=ARTIFACT_LIST::$(curl -fs https://api.github.com/repos/${{github.repository}}/actions/artifacts)"
              (Invoke-WebRequest -Uri https://api.github.com/repos/${{github.repository}}/actions/artifacts).Content > artifact-list-file.json
              
-      - name: Get latest artifact id
+      - name: Get target artifact id
         id: max_id
         run: |
              $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == \"${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max' 
              echo "::set-output name=MAX_ID::$myid"
       
-      - name: Get lastest artifact url
+      - name: Get target artifact url
         id: url
         run: |
              $myurl = cat artifact-list-file.json | jq '.artifacts[] | select( .id == ${{ steps.max_id.outputs.MAX_ID }} ) | .archive_download_url'
              echo "::set-output name=URL::$myurl"
              
-      - name: Download artifact
+      - name: Download target artifact
         id: download
         run: |
              # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
