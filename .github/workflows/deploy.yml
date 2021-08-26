@@ -47,7 +47,7 @@ jobs:
              $Headers = @{
                 Authorization = 'Basic {0}' -f $Base64Token;
              }
-             $Uri = '${{ steps.url.outputs.URL }}'
+             $Uri = ${{ steps.url.outputs.URL }}
  
              Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip"
              
