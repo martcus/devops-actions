@@ -38,17 +38,18 @@ jobs:
              echo "::set-output name=URL::$myurl"
              
       - name: Download artifact
+        id: download
         run: |
              curl "${{ steps.url.outputs.URL }}"
-             dir
+             dir ${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}
 
       - name: Exec deploy
-        if: ${{ success() }}
+        if: ${{ steps.download.conclusion == "success" }}
         run: |
             echo "Exec deploy"
             
       - name: Rollback
-        if: ${{ failure() }}
+        if: ${{ steps.download.conclusion == "failure" }}
         run: |
             echo "Rollback"
       
