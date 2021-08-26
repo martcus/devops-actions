@@ -40,9 +40,11 @@ jobs:
       - name: Download artifact
         id: download
         run: |
-             $Header = @{"Authorization" = "Basic"+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(username[:{ ${{ secrets.ACTIONS_TOKEN }} }]))}
-             Invoke-RestMethod -Method GET -Header $Header -ContentType "application/json" -SkipCertificateCheck -uri "${{ steps.url.outputs.URL }}"
-             dir ${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}
+             # $Header = @{"Authorization" = "Basic"+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(username[:{ ${{ secrets.ACTIONS_TOKEN }} }]))}
+             # Invoke-RestMethod -Method GET -Header $Header -ContentType "application/json" -SkipCertificateCheck -uri "${{ steps.url.outputs.URL }}"
+             
+             curl -u username[:{ ${{ secrets.ACTIONS_TOKEN }} }] -o "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip" "${{ steps.url.outputs.URL }}"
+             dir "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip"
              
       - name: Call script for deploy/rollback
         run: |
