@@ -43,7 +43,7 @@ jobs:
              # $Header = @{"Authorization" = "Basic"+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(username[:{ ${{ secrets.ACTIONS_TOKEN }} }]))}
              # Invoke-RestMethod -Method GET -Header $Header -ContentType "application/json" -SkipCertificateCheck -uri "${{ steps.url.outputs.URL }}"
              
-             curl -i -u martcus${{ secrets.ACTIONS_TOKEN }} "${{ steps.url.outputs.URL }}"
+             curl -u martcus:${{ secrets.ACTIONS_TOKEN }} "${{ steps.url.outputs.URL }}"
              cat "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}"
              
       - name: Call script for deploy/rollback
