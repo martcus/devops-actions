@@ -2,6 +2,9 @@ name: A workflow for build
 on: 
   workflow_dispatch:
     inputs:
+      BRANCH:
+        description: 'branch: the name of the branch "where" perform the workflow'
+        required: true
       SEMVER:
         description: 'semver: in format major.minor.patch'
         required: true
@@ -11,25 +14,28 @@ jobs:
     name: Build
     runs-on: windows-latest
     steps:
-      - name: Set current branch
-        id: set-current-branch
+      - name: Checkout target branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.BRANCH }}
+          lfs: 'true'
+        
+      - name: Set target branch
+        id: set-target-branch
         run: |
-             $branchName = "${{github.ref}}".Split("/")["${{github.ref}}".Split("/").Length -1]
-             echo "::set-output name=CURRENT_BRANCH::$(echo $branchName)"
-             echo "Running on $branchName "
-             #Linux version: echo "##[set-output name=CURRENT_BRANCH;]$(echo ${GITHUB_REF#refs/heads/})"
-
-      - name: Get current branch
+             echo "::set-output name=TARGET_BRANCH::$(echo ${{ github.event.inputs.BRANCH }})"
+             
+      - name: Get target branch
         run: |
-             echo "Current branch is ${{ steps.set-current-branch.outputs.CURRENT_BRANCH }} "
+             echo "Target branch is ${{ steps.set-target-branch.outputs.TARGET_BRANCH }} "
 
-      - name: Build
+      - name: Build target branch
         run: |
              echo "Executing build"
-             echo "hello artifact ʕ·͡ᴥ·ʔ ${{ github.event.inputs.SEMVER }}" > myartifact.txt
+             echo "hello artifact: ${{ github.event.inputs.BRANCH }} ${{ github.event.inputs.SEMVER }}" > myartifact.txt
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-            name: myartifact_${{ steps.set-current-branch.outputs.CURRENT_BRANCH }}_${{ github.event.inputs.SEMVER }}
+            name: myartifact_${{ steps.set-target-branch.outputs.TARGET_BRANCH }}_${{ github.event.inputs.SEMVER }}
             path: myartifact.txt
