@@ -48,6 +48,7 @@ jobs:
              dir ${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}
              
       - name: Print
+        if: ${{ always() }}
         run: |
             echo ${{ steps.download.conclusion }}
 
