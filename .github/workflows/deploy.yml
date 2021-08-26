@@ -2,13 +2,13 @@ name: A workflow for deploy
 on: 
   workflow_dispatch:
     inputs:
-      branch:
+      BRANCH:
         description: 'branch: the name of the branch "where" perform the workflow'
         required: true
-      semver:
+      SEMVER:
         description: 'semver: in format major.minor.patch'
         required: true
-      environment:
+      ENVIROMENT:
         description: "environment: the target environment where to execute the validatation or deployment"
         required: true
 
@@ -20,7 +20,7 @@ jobs:
       - name: Set current artifact name
         id: current-artifact
         run: |
-             echo "::set-output name=CURRENT_ARTIFACT::$(echo myartifact_${{ github.event.inputs.branch }}_${{ github.event.inputs.semver }})"
+             echo "::set-output name=CURRENT_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
    
       - name: Retrieve artifact list
         id: artifact-list
