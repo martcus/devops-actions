@@ -11,6 +11,10 @@ on:
 
 jobs:
   deploy:
+    # Prevents a job from failing when a step fails. Set to true to allow a job to pass when this step fails.
+    # ref: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
+    continue-on-error: true
+    
     name: Deploy
     runs-on: windows-latest
     steps:
@@ -54,6 +58,7 @@ jobs:
             echo "Rollback"
       
       - name: Echo Variables
+        if: ${{ always() }}
         run: |
              echo "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}"
              echo "${{ steps.max_id.outputs.MAX_ID }}"
