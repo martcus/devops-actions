@@ -29,7 +29,7 @@ jobs:
         run: |
              echo "Target branch is ${{ steps.set-target-branch.outputs.TARGET_BRANCH }} "
 
-      - name: Build
+      - name: Build target branch
         run: |
              echo "Executing build"
              echo "hello artifact: ${{ github.event.inputs.BRANCH }} ${{ github.event.inputs.SEMVER }}" > myartifact.txt
