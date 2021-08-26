@@ -44,12 +44,12 @@ jobs:
              dir ${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}
 
       - name: Exec deploy
-        if: ${{ steps.download.conclusion == success }}
+        if: ${{ steps.download.conclusion == 'success' }}
         run: |
             echo "Exec deploy"
             
       - name: Rollback
-        if: ${{ steps.download.conclusion == failure }}
+        if: ${{ steps.download.conclusion == 'failure' }}
         run: |
             echo "Rollback"
       
