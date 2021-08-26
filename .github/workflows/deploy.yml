@@ -11,10 +11,6 @@ on:
 
 jobs:
   deploy:
-    # Prevents a job from failing when a step fails. Set to true to allow a job to pass when this step fails.
-    # ref: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
-    continue-on-error: true
-    
     name: Deploy
     runs-on: windows-latest
     steps:
@@ -47,21 +43,10 @@ jobs:
              curl "${{ steps.url.outputs.URL }}"
              dir ${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}
              
-      - name: Print
-        if: ${{ always() }}
+      - name: Call script for deploy/rollback
         run: |
-            echo ${{ steps.download.conclusion }}
+            echo "Call script ${{ steps.download.conclusion }}"
 
-      - name: Exec deploy
-        if: ${{ steps.download.conclusion == 'success' }}
-        run: |
-            echo "Exec deploy"
-            
-      - name: Rollback
-        if: ${{ steps.download.conclusion == 'failure' }}
-        run: |
-            echo "Rollback"
-      
       - name: Echo Variables
         if: ${{ always() }}
         run: |
