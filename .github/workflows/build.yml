@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       SEMVER:
-        description: 'Semantic Version (in format Major.Minor.Patch)'
+        description: 'semver: in format major.minor.patch'
         required: true
 
 jobs:
