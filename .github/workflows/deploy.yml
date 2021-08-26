@@ -46,6 +46,10 @@ jobs:
         run: |
              curl "${{ steps.url.outputs.URL }}"
              dir ${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}
+             
+      - name: Print
+        run: |
+            echo ${{ steps.download.conclusion }}
 
       - name: Exec deploy
         if: ${{ steps.download.conclusion == 'success' }}
