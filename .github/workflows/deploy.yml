@@ -3,10 +3,13 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Branch name'
+        description: 'branch: the name of the branch "where" perform the workflow'
         required: true
       semver:
-        description: 'Semantic Version (in format Major.Minor.Patch)'
+        description: 'semver: in format major.minor.patch'
+        required: true
+      environment:
+        description: "environment: the target environment where to execute the validatation or deployment"
         required: true
 
 jobs:
