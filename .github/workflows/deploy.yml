@@ -41,6 +41,16 @@ jobs:
         run: |
              curl "${{ steps.url.outputs.URL }}"
              dir
+
+      - name: Exec deploy
+        if: ${{ success() }}
+        run: |
+            echo "Exec deploy"
+            
+      - name: Rollback
+        if: ${{ failure() }}
+        run: |
+            echo "Rollback"
       
       - name: Echo Variables
         run: |
