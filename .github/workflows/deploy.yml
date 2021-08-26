@@ -17,10 +17,10 @@ jobs:
     name: Deploy
     runs-on: windows-latest
     steps:
-      - name: Set current artifact name
-        id: current-artifact
+      - name: Set target artifact name
+        id: target-artifact
         run: |
-             echo "::set-output name=CURRENT_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
+             echo "::set-output name=TARGET_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
    
       - name: Retrieve artifact list
         id: artifact-list
@@ -31,7 +31,7 @@ jobs:
       - name: Get latest artifact id
         id: max_id
         run: |
-             $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == \"${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}\" and .expired == false) | .id ] | max' 
+             $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == \"${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max' 
              echo "::set-output name=MAX_ID::$myid"
       
       - name: Get lastest artifact url
@@ -52,12 +52,13 @@ jobs:
              }
              $Uri = ${{ steps.url.outputs.URL }}
  
-             Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip"
+             Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
              
-             dir "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip"
+             dir "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
              
-             # Check downloaded file
-             Expand-Archive -LiteralPath "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip" -DestinationPath .
+      - name: Check downloaded artifact
+        run: |
+             Expand-Archive -LiteralPath "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip" -DestinationPath .
              cat myartifact.txt
              
       - name: Call script for deploy/rollback
@@ -67,6 +68,6 @@ jobs:
       - name: Echo Variables
         if: ${{ always() }}
         run: |
-             echo "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}"
+             echo "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
              echo "${{ steps.max_id.outputs.MAX_ID }}"
              echo "${{ steps.url.outputs.URL }}"
