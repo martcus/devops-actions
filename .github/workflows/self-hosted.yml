@@ -1,0 +1,10 @@
+name: A workflow for self-hosted runner
+on: devops-runner
+
+jobs:
+  quality:
+    name: Don't try this at home!
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+             echo "Hello from your friendly Neighborhood self-hosted runner!"
