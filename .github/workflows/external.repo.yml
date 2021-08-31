@@ -2,9 +2,15 @@ name: Ubuntu - Try checkout external repo
 on: workflow_dispatch
 
 jobs:
-  quality:
+  externalrepo:
     name: External repo
     runs-on: ubuntu-latest
     steps:
-      - run: |
-             echo "Hello!"
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          repository: martcus/log4sh
+          ref: master
+      - name: Try the magic script
+        run: |
+          ./test/test.sh
