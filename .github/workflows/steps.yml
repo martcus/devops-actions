@@ -1,0 +1,10 @@
+name: Win - Manage steps workflow 
+on: workflow_dispatch
+
+jobs:
+  quality:
+    name: Lorem Ipsum
+    runs-on: windows-latest
+    steps:
+      - run: |
+             echo "Hello!"
