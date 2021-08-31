@@ -24,3 +24,6 @@ jobs:
         if: ${{ always() }}
         run: |
           echo "happy to have been of help"
+      - name: Not always run
+        run: |
+          echo "i wanna be your slave"
