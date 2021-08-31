@@ -11,7 +11,7 @@ jobs:
       - name: Run script
         id: script
         run: |
-          ./scripts/script.bat
+          ./scripts/script_with-exit-code.bat
       - name: Step if success
         if: ${{ success() }}
         run: |
