@@ -1,0 +1,29 @@
+name: Win - Manage steps workflow 
+on: workflow_dispatch
+
+jobs:
+  quality:
+    name: Lorem Ipsum
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      - name: Run script
+        id: script
+        run: |
+          ./scripts/script_with-logfile.bat
+      - name: Step if success
+        if: ${{ success() }}
+        run: |
+          echo "We rock the world!"
+      - name: Step if failure
+        if: ${{ failure() }}
+        run: |
+          echo "Don't give up, try again"
+      - name: Always executed
+        if: ${{ always() }}
+        run: |
+          echo "happy to have been of help"
+      - name: Not always run
+        run: |
+          echo "i wanna be your slave"
