@@ -1,0 +1,10 @@
+name: Ubuntu - Try checkout external repo
+on: workflow_dispatch
+
+jobs:
+  quality:
+    name: External repo
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+             echo "Hello!"
