@@ -9,7 +9,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
       - name: Run script
+        id: script
         run: |
-          dir
           ./scripts/script.bat
-        
+      - name: Step if success
+        if: ${{ success() }}
+        run: |
+          echo "We rock the world!"
+      - name: Step if failure
+        if: ${{ failure() }}
+        run: |
+          echo "Don't give up, try again"
+      - name: Always executed
+        if: ${{ always() }}
+        run: |
+          echo "happy to have been of help"
