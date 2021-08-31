@@ -1,4 +1,4 @@
-name: Win - Manage steps workflow 
+name: Win - Flow control with logfile
 on: workflow_dispatch
 
 jobs:
