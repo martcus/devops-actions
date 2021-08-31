@@ -13,4 +13,6 @@ jobs:
           ref: master
       - name: Try the magic script
         run: |
+          chmod +x ./script/log4.sh
+          chmod +x ./test/test.sh
           ./test/test.sh
