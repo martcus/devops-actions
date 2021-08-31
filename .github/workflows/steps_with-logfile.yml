@@ -12,6 +12,7 @@ jobs:
         id: script
         run: |
           ./scripts/script_with-logfile.bat
+          findstr SUCCESS result.txt
       - name: Step if success
         if: ${{ success() }}
         run: |
