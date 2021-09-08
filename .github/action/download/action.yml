@@ -1,0 +1,43 @@
+name: 'Download'
+description: 'Download Artifact'
+inputs:
+  artifact:
+    description: 'Artifact Name'
+    required: true
+  token:
+    description: 'Token'
+    required: true
+
+  runs:
+    using: "composite"
+
+    steps:
+      - name: Set current artifact name
+        id: current-artifact
+        run: |
+             echo "::set-output name=CURRENT_ARTIFACT::$(echo ${{ github.event.inputs.artifact }})"
+      - name: Retrieve artifact list
+        id: artifact-list
+        run: |
+             (Invoke-WebRequest -Uri https://api.github.com/repos/${{github.repository}}/actions/artifacts).Content > artifact-list-file.json
+      - name: Get latest artifact id
+        id: max_id
+        run: |
+             $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == \"${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}\" and .expired == false) | .id ] | max'
+             echo "::set-output name=MAX_ID::$myid"
+      - name: Get lastest artifact url
+        id: url
+        run: |
+             $myurl = cat artifact-list-file.json | jq '.artifacts[] | select( .id == ${{ steps.max_id.outputs.MAX_ID }} ) | .archive_download_url'
+             echo "::set-output name=URL::$myurl"
+      - name: Download artifact
+        id: download
+        run: |
+             $Token = 'MattMod:${{ github.event.inputs.token }}'
+             $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
+             $Headers = @{
+                Authorization = 'Basic {0}' -f $Base64Token;
+             }
+             $Uri = ${{ steps.url.outputs.URL }}
+             Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip"
+             dir "${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}.zip"
