@@ -23,7 +23,7 @@ jobs:
              echo "::set-output name=TARGET_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
    
       - name: Download artifact
-        uses: ./github/action/download
+        uses: ./.github/action/download
         with:
           artifact: ${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}
           token: ${{ secrets.ACTIONS_TOKEN }}
