@@ -12,8 +12,7 @@ inputs:
     required: true
 
   runs:
-    using: "composite"
-
+    # using: "composite"
     steps:
       - name: Set current artifact name
         id: current-artifact
@@ -22,7 +21,7 @@ inputs:
       - name: Retrieve artifact list
         id: artifact-list
         run: |
-             (Invoke-WebRequest -Uri https://api.github.com/repos/${{input.repository}}/actions/artifacts).Content > artifact-list-file.json
+             (Invoke-WebRequest -Uri https://api.github.com/repos/${{inputs.repository}}/actions/artifacts).Content > artifact-list-file.json
       - name: Get latest artifact id
         id: max_id
         run: |
