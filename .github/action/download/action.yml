@@ -11,7 +11,7 @@ inputs:
     description: 'Repository target'
     required: true
  runs:
-  # using: "composite"
+  using: "composite"
   steps:
     - name: Set current artifact name
       id: current-artifact
