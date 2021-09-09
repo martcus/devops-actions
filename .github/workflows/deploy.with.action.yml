@@ -30,6 +30,7 @@ jobs:
         with:
           artifact: ${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}
           token: ${{ secrets.ACTIONS_TOKEN }}
+          repository: ${{github.repository}}
              
       - name: Check downloaded artifact
         run: |
