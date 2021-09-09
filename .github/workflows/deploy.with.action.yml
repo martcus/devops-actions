@@ -1,4 +1,4 @@
-name: Win - Deploy with action workflow
+name: Win - Deploy with external action
 on: 
   workflow_dispatch:
     inputs:
