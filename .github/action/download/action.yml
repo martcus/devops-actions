@@ -7,6 +7,9 @@ inputs:
   token:
     description: 'Token'
     required: true
+  repository:
+    description: 'Repository target'
+    required: true
 
   runs:
     using: "composite"
@@ -15,11 +18,11 @@ inputs:
       - name: Set current artifact name
         id: current-artifact
         run: |
-             echo "::set-output name=CURRENT_ARTIFACT::$(echo ${{ github.event.inputs.artifact }})"
+             echo "::set-output name=CURRENT_ARTIFACT::$(echo ${{ inputs.artifact }})"
       - name: Retrieve artifact list
         id: artifact-list
         run: |
-             (Invoke-WebRequest -Uri https://api.github.com/repos/${{github.repository}}/actions/artifacts).Content > artifact-list-file.json
+             (Invoke-WebRequest -Uri https://api.github.com/repos/${{input.repository}}/actions/artifacts).Content > artifact-list-file.json
       - name: Get latest artifact id
         id: max_id
         run: |
@@ -33,7 +36,7 @@ inputs:
       - name: Download artifact
         id: download
         run: |
-             $Token = 'MattMod:${{ github.event.inputs.token }}'
+             $Token = 'MattMod:${{ inputs.token }}'
              $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
              $Headers = @{
                 Authorization = 'Basic {0}' -f $Base64Token;
