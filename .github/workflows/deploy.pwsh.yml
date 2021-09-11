@@ -58,9 +58,9 @@ jobs:
             exit 1
           }
           
-          $myurl.archive_download_url
+          $url = $myurl.archive_download_url
           
-          echo "::set-output name=URL::$myurl"
+          echo "::set-output name=URL::$url"
              
       - name: Download target artifact
         id: download
@@ -72,7 +72,7 @@ jobs:
             $Headers = @{
               Authorization = 'Basic {0}' -f $Base64Token;
             }
-            $Uri = ${{ steps.artifact-url.outputs.URL }} | ConvertFrom-Json
+            $Uri = ${{ steps.artifact-url.outputs.URL }} 
 
             Invoke-WebRequest -Headers $Headers -Uri $Uri.archive_download_url -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
 
