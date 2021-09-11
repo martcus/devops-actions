@@ -1,4 +1,4 @@
-name: Win - Deploy workflow
+name: Win - Deploy workflow JQ
 on: 
   workflow_dispatch:
     inputs:
