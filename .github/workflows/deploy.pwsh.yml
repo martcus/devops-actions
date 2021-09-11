@@ -23,8 +23,8 @@ jobs:
         run: |
              echo "::set-output name=TARGET_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
    
-      - name: Retrieve artifact list
-        id: artifact-list
+      - name: Get artifact url
+        id: artifact-url
         shell: pwsh
         run: |
           $artifacts = (Invoke-WebRequest -Uri https://api.github.com/repos/martcus/devops-in-actions/actions/artifacts).Content | ConvertFrom-Json
@@ -33,31 +33,13 @@ jobs:
             exit 1 
           }
           
-      - name: Get list of target artifacs
-        id: list_target_artifacts
-        shell: pwsh
-        run: |
-          $artifacts
-          $artifacts.artifacts
-          
-          $target = "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
-          $target
-          
           $members = $artifacts.artifacts | Where-Object { $_.name -match "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}" -and $_.expired -match "false"}
-          $members
-          
-          $members = $artifacts.artifacts | Where-Object { $_.name -match $target -and $_.expired -match "false"}
-          $members
           
           if ($members -eq $null) {
-            echo "Error: Zero artifacts found named: "$target"!"
+            echo "Error: Zero artifacts found named: "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"!"
             exit 1
           }
-          
-      - name: Get target artifact id
-        id: max_id
-        shell: pwsh
-        run: |
+  
           $myid = -1
           for ($i = 0; $i -le $members.Count - 1; $i++) {
             if ($myid -le $members[$i].id) {
@@ -70,17 +52,12 @@ jobs:
           }
           echo "::set-output name=MAX_ID::$myid"
       
-      - name: Get target artifact url
-        id: url
-        shell: pwsh
-        run: |
-            $myurl = $members | where-object { $_.id -match $maxid }
-            if ($myurl -eq $null) {
-              echo "Error: URL not found!"
-              exit 1
-            }
-            $myurl.archive_download_url
-            echo "::set-output name=URL::$myurl"
+          $myurl = $members | where-object { $_.id -match $myid }
+          if ($myurl -eq $null) {
+            echo "Error: URL not found!"
+            exit 1
+          }
+          echo "::set-output name=URL::$myurl.archive_download_url"
              
       - name: Download target artifact
         id: download
@@ -92,7 +69,7 @@ jobs:
             $Headers = @{
               Authorization = 'Basic {0}' -f $Base64Token;
             }
-            $Uri = ${{ steps.url.outputs.URL }}
+            $Uri = ${{ steps.artifact-url.outputs.URL }}
 
             Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
 
