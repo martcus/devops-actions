@@ -25,6 +25,7 @@ jobs:
    
       - name: Retrieve artifact list
         id: artifact-list
+        shell: pwsh
         run: |
           $artifacts = (Invoke-WebRequest -Uri https://api.github.com/repos/martcus/devops-in-actions/actions/artifacts).Content | ConvertFrom-Json
           if ($artifacts.total_count -eq 0) {
@@ -34,15 +35,18 @@ jobs:
           
       - name: Get list of target artifacs
         id: list_target_artifacts
+        shell: pwsh
         run: |
-          $members = $artifacts.artifacts | where-object { $_.name -match "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}" -and $_.expired -match "false"}
+          $target = "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
+          $members = $artifacts.artifacts | where-object { $_.name -match $target -and $_.expired -match "false"}
           if ($members -eq $null) {
-            echo "Error: Zero artifacts found named: "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"!"
+            echo "Error: Zero artifacts found named: $target!"
             exit 1
           }
           
       - name: Get target artifact id
         id: max_id
+        shell: pwsh
         run: |
           $myid = -1
           for ($i = 0; $i -le $members.Count - 1; $i++) {
@@ -58,6 +62,7 @@ jobs:
       
       - name: Get target artifact url
         id: url
+        shell: pwsh
         run: |
             $myurl = $members | where-object { $_.id -match $maxid }
             if ($myurl -eq $null) {
@@ -69,6 +74,7 @@ jobs:
              
       - name: Download target artifact
         id: download
+        shell: pwsh
         run: |
             # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
             $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
@@ -88,15 +94,18 @@ jobs:
             }
              
       - name: Check downloaded artifact
+        shell: pwsh
         run: |
              Expand-Archive -LiteralPath "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip" -DestinationPath .
              cat myartifact.txt
              
       - name: Call script for deploy/rollback
+        shell: pwsh
         run: |
             echo "Call script ${{ steps.download.conclusion }}"
             
       - name: Echo Variables
+        shell: pwsh
         if: ${{ always() }}
         run: |
              echo "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
