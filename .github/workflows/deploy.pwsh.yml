@@ -1,0 +1,71 @@
+name: Win - Deploy workflow
+on: 
+  workflow_dispatch:
+    inputs:
+      BRANCH:
+        description: 'branch: the name of the branch "where" perform the workflow'
+        required: true
+      SEMVER:
+        description: 'semver: in format major.minor.patch'
+        required: true
+      ENVIROMENT:
+        description: "environment: the target environment where to execute the validatation or deployment"
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: windows-latest
+    steps:
+      - name: Set target artifact name
+        id: target-artifact
+        run: |
+             echo "::set-output name=TARGET_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
+   
+      - name: Retrieve artifact list
+        id: artifact-list
+        run: |
+             # (Invoke-WebRequest -Uri https://api.github.com/repos/${{github.repository}}/actions/artifacts).Content > artifact-list-file.json
+             
+      - name: Get target artifact id
+        id: max_id
+        run: |
+             # $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == \"${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max' 
+             # echo "::set-output name=MAX_ID::$myid"
+      
+      - name: Get target artifact url
+        id: url
+        run: |
+             # $myurl = cat artifact-list-file.json | jq '.artifacts[] | select( .id == ${{ steps.max_id.outputs.MAX_ID }} ) | .archive_download_url'
+             # echo "::set-output name=URL::$myurl"
+             
+      - name: Download target artifact
+        id: download
+        run: |
+             # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
+             
+             $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
+             $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
+             $Headers = @{
+                Authorization = 'Basic {0}' -f $Base64Token;
+             }
+             $Uri = ${{ steps.url.outputs.URL }}
+ 
+             Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+             
+             dir "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+             
+      - name: Check downloaded artifact
+        run: |
+             Expand-Archive -LiteralPath "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip" -DestinationPath .
+             cat myartifact.txt
+             
+      - name: Call script for deploy/rollback
+        run: |
+            echo "Call script ${{ steps.download.conclusion }}"
+      - name: Echo Variables
+        if: ${{ always() }}
+        run: |
+             echo "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
+             echo "${{ steps.max_id.outputs.MAX_ID }}"
+             echo "${{ steps.url.outputs.URL }}"
