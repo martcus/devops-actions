@@ -31,6 +31,7 @@ jobs:
             echo "Error: Zero artifacts found via API!"
             exit 1 
           }
+          
       - name: Get list of target artifacs
         id: list_target_artifacts
         run: |
@@ -39,6 +40,7 @@ jobs:
             echo "Error: Zero artifacts found named: $target!"
             exit 1
           }
+          
       - name: Get target artifact id
         id: max_id
         run: |
@@ -93,6 +95,7 @@ jobs:
       - name: Call script for deploy/rollback
         run: |
             echo "Call script ${{ steps.download.conclusion }}"
+            
       - name: Echo Variables
         if: ${{ always() }}
         run: |
