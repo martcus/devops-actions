@@ -80,7 +80,7 @@ jobs:
         shell: pwsh
         run: |
           $exist = Test-Path "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
-          if ($exist) {
+          if ($exist -eq $false) {
             echo "Error: File not downloaded!"
             exit 1
           }
