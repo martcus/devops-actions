@@ -38,7 +38,14 @@ jobs:
         shell: pwsh
         run: |
           $target = "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
+          $target
+          
           $members = $artifacts.artifacts | Where-Object { $_.name -match "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}" -and $_.expired -match "false"}
+          $members
+          
+          $members = $artifacts.artifacts | Where-Object { $_.name -match $target -and $_.expired -match "false"}
+          $members
+          
           if ($members -eq $null) {
             echo "Error: Zero artifacts found named: "$target"!"
             exit 1
