@@ -26,35 +26,64 @@ jobs:
       - name: Retrieve artifact list
         id: artifact-list
         run: |
-             # (Invoke-WebRequest -Uri https://api.github.com/repos/${{github.repository}}/actions/artifacts).Content > artifact-list-file.json
-             
+          $artifacts = (Invoke-WebRequest -Uri https://api.github.com/repos/martcus/devops-in-actions/actions/artifacts).Content | ConvertFrom-Json
+          if ($artifacts.total_count -eq 0) {
+            echo "Error: Zero artifacts found via API!"
+            exit 1 
+          }
+      - name: Get list of target artifacs
+        id: list_target_artifacts
+        run: |
+          $members = $artifacts.artifacts | where-object { $_.name -match $target -and $_.expired -match "false"}
+          if ($members -eq $null) {
+            echo "Error: Zero artifacts found named: $target!"
+            exit 1
+          }
       - name: Get target artifact id
         id: max_id
         run: |
-             # $myid = cat artifact-list-file.json | jq '[ .artifacts[] | select(.name == \"${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max' 
-             # echo "::set-output name=MAX_ID::$myid"
+          $myid = -1
+          for ($i = 0; $i -le $members.Count - 1; $i++) {
+            if ($myid -le $members[$i].id) {
+              $myid = $members[$i].id
+            }
+          }
+          if ($myid -le -1) {
+            echo "Error: ID non identified!"
+            exit 1
+          }
+          echo "::set-output name=MAX_ID::$myid"
       
       - name: Get target artifact url
         id: url
         run: |
-             # $myurl = cat artifact-list-file.json | jq '.artifacts[] | select( .id == ${{ steps.max_id.outputs.MAX_ID }} ) | .archive_download_url'
-             # echo "::set-output name=URL::$myurl"
+            $myurl = $members | where-object { $_.id -match $maxid }
+            if ($myurl -eq $null) {
+              echo "Error: URL not found!"
+              exit 1
+            }
+            $myurl.archive_download_url
+            echo "::set-output name=URL::$myurl"
              
       - name: Download target artifact
         id: download
         run: |
-             # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
-             
-             $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
-             $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
-             $Headers = @{
-                Authorization = 'Basic {0}' -f $Base64Token;
-             }
-             $Uri = ${{ steps.url.outputs.URL }}
- 
-             Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
-             
-             dir "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+            # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
+            $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
+            $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
+            $Headers = @{
+              Authorization = 'Basic {0}' -f $Base64Token;
+            }
+            $Uri = ${{ steps.url.outputs.URL }}
+
+            Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+
+            $exist = Test-Path "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+
+            if ($exist) {
+              echo "Error: File not downloaded!"
+              exit 1
+            }
              
       - name: Check downloaded artifact
         run: |
