@@ -75,19 +75,17 @@ jobs:
             $Uri = "${{ steps.artifact-url.outputs.URL }}"
 
             Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
-
-            dir "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
-            # $exist = Test-Path "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
-            # if ($exist) {
-            #   echo "Error: File not downloaded!"
-            #   exit 1
-            # }
              
       - name: Check downloaded artifact
         shell: pwsh
         run: |
-             Expand-Archive -LiteralPath "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip" -DestinationPath .
-             cat myartifact.txt
+          $exist = Test-Path "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+          if ($exist) {
+            echo "Error: File not downloaded!"
+            exit 1
+          }
+          Expand-Archive -LiteralPath "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip" -DestinationPath .
+          cat myartifact.txt
              
       - name: Call script for deploy/rollback
         shell: pwsh
