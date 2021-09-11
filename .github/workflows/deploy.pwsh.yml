@@ -1,4 +1,6 @@
 name: Win - Deploy workflow PWSH
+# Example with cli
+# gh workflow run deploy.pwsh.yml -f BRANCH=master -f SEMVER=0.0.2 -f ENVIROMENT=Production
 
 on: 
   workflow_dispatch:
