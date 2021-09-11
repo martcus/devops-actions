@@ -38,9 +38,9 @@ jobs:
         shell: pwsh
         run: |
           $target = "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
-          $members = $artifacts.artifacts | where-object { $_.name -match $target -and $_.expired -match "false"}
+          $members = $artifacts.artifacts | Where-Object { $_.name -match "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}" -and $_.expired -match "false"}
           if ($members -eq $null) {
-            echo "Error: Zero artifacts found named: $target!"
+            echo "Error: Zero artifacts found named: "$target"!"
             exit 1
           }
           
