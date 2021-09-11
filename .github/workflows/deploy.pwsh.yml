@@ -52,11 +52,14 @@ jobs:
           }
           echo "::set-output name=MAX_ID::$myid"
       
-          $myurl = $members | where-object { $_.id -match $myid }
+          $myurl = $members | Where-Object { $_.id -match $myid }
           if ($myurl -eq $null) {
             echo "Error: URL not found!"
             exit 1
           }
+          
+          $myurl.archive_download_url
+          
           echo "::set-output name=URL::$myurl.archive_download_url"
              
       - name: Download target artifact
