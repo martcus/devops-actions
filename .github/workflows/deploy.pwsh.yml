@@ -1,4 +1,5 @@
-name: Win - Deploy workflow
+name: Win - Deploy workflow PWSH
+
 on: 
   workflow_dispatch:
     inputs:
