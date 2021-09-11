@@ -37,6 +37,9 @@ jobs:
         id: list_target_artifacts
         shell: pwsh
         run: |
+          $artifacts
+          $artifacts.artifacts
+          
           $target = "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
           $target
           
