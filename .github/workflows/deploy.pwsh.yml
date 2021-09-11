@@ -74,7 +74,7 @@ jobs:
             }
             $Uri = "${{ steps.artifact-url.outputs.URL }}"
 
-            Invoke-WebRequest -Headers $Headers -Uri $Uri.archive_download_url -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+            Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
 
             $exist = Test-Path "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
 
