@@ -35,6 +35,7 @@ jobs:
       - name: Get list of target artifacs
         id: list_target_artifacts
         run: |
+          $target = ${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}
           $members = $artifacts.artifacts | where-object { $_.name -match $target -and $_.expired -match "false"}
           if ($members -eq $null) {
             echo "Error: Zero artifacts found named: $target!"
