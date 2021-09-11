@@ -76,12 +76,12 @@ jobs:
 
             Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
 
-            $exist = Test-Path "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
-
-            if ($exist) {
-              echo "Error: File not downloaded!"
-              exit 1
-            }
+            dir "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+            # $exist = Test-Path "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+            # if ($exist) {
+            #   echo "Error: File not downloaded!"
+            #   exit 1
+            # }
              
       - name: Check downloaded artifact
         shell: pwsh
