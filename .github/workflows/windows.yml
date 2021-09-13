@@ -1,0 +1,18 @@
+name: Win - Windows 
+on: workflow_dispatch
+
+jobs:
+  quality:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt' 
+          java-version: '11'
+      - name: Check java version
+        shell: pwsh
+        run: |
+          java --version
+        
