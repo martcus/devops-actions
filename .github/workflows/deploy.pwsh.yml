@@ -23,20 +23,25 @@ jobs:
       - name: Set target artifact name
         id: target-artifact
         run: |
-             echo "::set-output name=TARGET_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
+          echo "::set-output name=TARGET_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
    
       - name: Get artifact url
         id: artifact-url
         shell: pwsh
         run: |
-          $artifacts = (Invoke-WebRequest -Uri https://api.github.com/repos/martcus/devops-in-actions/actions/artifacts).Content | ConvertFrom-Json
+          # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
+          $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
+          $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
+          $Headers = @{
+            Authorization = 'Basic {0}' -f $Base64Token;
+          }
+          $artifacts = (Invoke-WebRequest -Headers $Headers -Uri https://api.github.com/repos/${{github.repository}}/actions/artifacts).Content | ConvertFrom-Json
           if ($artifacts.total_count -eq 0) {
             echo "Error: Zero artifacts found via API!"
             exit 1 
           }
           
           $members = $artifacts.artifacts | Where-Object { $_.name -match "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}" -and $_.expired -match "false"}
-          
           if ($members -eq $null) {
             echo "Error: Zero artifacts found named: "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"!"
             exit 1
@@ -59,25 +64,22 @@ jobs:
             echo "Error: URL not found!"
             exit 1
           }
-          
           $url = $myurl.archive_download_url
-          
           echo "::set-output name=URL::$url"
              
       - name: Download target artifact
         id: download
         shell: pwsh
         run: |
-            # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
-            $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
-            $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
-            $Headers = @{
-              Authorization = 'Basic {0}' -f $Base64Token;
-            }
-            $Uri = "${{ steps.artifact-url.outputs.URL }}"
-
-            Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
-             
+          # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
+          $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
+          $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
+          $Headers = @{
+            Authorization = 'Basic {0}' -f $Base64Token;
+          }
+          $Uri = "${{ steps.artifact-url.outputs.URL }}"
+          Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+            
       - name: Check downloaded artifact
         shell: pwsh
         run: |
@@ -92,12 +94,12 @@ jobs:
       - name: Call script for deploy/rollback
         shell: pwsh
         run: |
-            echo "Call script ${{ steps.download.conclusion }}"
+          echo "Call script ${{ steps.download.conclusion }}"
             
       - name: Echo Variables
         shell: pwsh
         if: ${{ always() }}
         run: |
-             echo "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
-             echo "${{ steps.max_id.outputs.MAX_ID }}"
-             echo "${{ steps.url.outputs.URL }}"
+          echo "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}"
+          echo "${{ steps.max_id.outputs.MAX_ID }}"
+          echo "${{ steps.url.outputs.URL }}"
