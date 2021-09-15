@@ -16,9 +16,18 @@ on:
         required: true
 
 jobs:
-  deploy:
-    name: Deploy
+  nixdeploy:
+    name: Linux Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Greetings
+        run: |
+          echo "Hello World!"
+          
+  windeploy:
+    name: Win Deploy
     runs-on: windows-latest
+    needs: nixdeploy
     steps:
       - name: Set target artifact name
         id: target-artifact
