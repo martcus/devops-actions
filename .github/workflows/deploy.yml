@@ -37,3 +37,10 @@ jobs:
         id=$(echo $response | jq "[ .artifacts[] | select (.name == \"${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max")
         url=$(echo $response | jq "[ .artifacts[] | select (.id == $id) | .archive_download_url ]")
         echo "::set-output name=TARGET_URL::$url"
+
+    - name: Echo Variables
+      shell: bash
+      if: ${{ always() }}
+      run: |
+        echo "${{ steps.set-artifact.outputs.TARGET_ARTIFACT }}"
+        echo "${{ steps.set-url.outputs.TARGET_URL }}"
