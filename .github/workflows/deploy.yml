@@ -32,7 +32,7 @@ jobs:
       id: set-url
       shell: bash
       run: |
-        token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
+        token='martcus:${{ secrets.ACTIONS_TOKEN }}'
         response=$(curl -u martcus:$token https://api.github.com/repos/martcus/devops-in-actions/actions/artifacts)
         id=$(echo $response | jq "[ .artifacts[] | select (.name == \"${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max")
         url=$(echo $response | jq "[ .artifacts[] | select (.id == $id) | .archive_download_url ]")
