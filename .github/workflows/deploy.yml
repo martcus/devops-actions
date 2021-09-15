@@ -37,7 +37,10 @@ jobs:
         id=$(echo $response | jq "[ .artifacts[] | select (.name == \"${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max")
         url=$(echo $response | jq "[ .artifacts[] | select (.id == $id) | .archive_download_url ]")
         echo "::set-output name=TARGET_URL::$(echo $url)"
-
+        if [ -z "$url" ]; then
+          echo "\$url is empty"
+          exit 1
+        fi
     - name: Echo Variables
       shell: bash
       if: ${{ always() }}
