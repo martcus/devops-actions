@@ -1,0 +1,39 @@
+name: Mixed deploy workflow 
+# Example with cli
+# gh workflow run deploy.yml -f BRANCH=master -f SEMVER=0.0.2 -f ENVIROMENT=Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      BRANCH:
+        description: 'branch: the name of the branch "where" perform the workflow'
+        required: true
+      SEMVER:
+        description: 'semver: in format major.minor.patch'
+        required: true
+      ENVIROMENT:
+        description: "environment: the target environment where to execute the validatation or deployment"
+        required: true
+
+jobs:
+  config:
+    name: Set up variables
+    runs-on: ubuntu-latest
+    outputs:
+      TARGET_ARTIFACT: ${{ steps.set-artifact.outputs.TARGET_ARTIFACT }}
+      TARGET_URL: ${{ steps.set-url.outputs.TARGET_URL }}
+    steps:
+    - name: Set target artifact name
+      id: set-artifact
+      run: |
+        echo "::set-output name=TARGET_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
+
+    - name: Set target url
+      id: set-url
+      shell: bash
+      run: |
+        token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
+        response=$(curl -u martcus:$token https://api.github.com/repos/martcus/devops-in-actions/actions/artifacts)
+        id=$(echo $response | jq "[ .artifacts[] | select (.name == \"${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max")
+        url=$(echo $response | jq "[ .artifacts[] | select (.id == $id) | .archive_download_url ]")
+        echo "::set-output name=TARGET_URL::$url"
