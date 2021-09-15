@@ -45,20 +45,39 @@ jobs:
         echo "${{ steps.set-artifact.outputs.TARGET_ARTIFACT }}"
         echo "${{ steps.set-url.outputs.TARGET_URL }}"
   
-  unix:
+  nix:
     name: Linux Deploy
     runs-on: ubuntu-latest
-    needs: config
+    needs: [config]
     steps:
-      - name: Greetings
+      - name: Download target artifact
+        id: download
+        shell: bash
         run: |
-          echo "Hello world!"
+           echo "Download target artifact"
+      - name: Check downloaded artifact
+        shell: bash
+        run: |
+          echo "Check downloaded artifact"
+      - name: Call script for deploy
+        shell: bash
+        run: |
+          echo "Call script for deploy"
           
   win:
     name: Windows Deploy
     runs-on: windows-latest
-    needs: [config, unix]
+    needs: [config]
     steps:
-      - name: Greetings
-        run: |
-          echo "Hello world!"   
+    - name: Download target artifact
+      shell: pwsh
+      run: |
+         echo "Download target artifact"
+    - name: Check downloaded artifact
+      shell: pwsh
+      run: |
+        echo "Check downloaded artifact"
+    - name: Call script for deploy
+      shell: pwsh
+      run: |
+        echo "Call script for deploy"
