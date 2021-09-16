@@ -104,7 +104,7 @@ jobs:
           Authorization = 'Basic {0}' -f $Base64Token;
         }
         $Uri = "${{needs.config.outputs.TARGET_URL}}
-        Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "{{needs.config.outputs.TARGET_ARTIFACT}}.zip"
+        Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{needs.config.outputs.TARGET_ARTIFACT}}.zip"
 
     - name: Check downloaded artifact
       shell: pwsh
