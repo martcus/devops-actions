@@ -110,7 +110,7 @@ jobs:
     - name: Check downloaded artifact
       shell: pwsh
       run: |
-        $exist = Test-Path "${{steps.target-artifact.outputs.TARGET_ARTIFACT}}.zip"
+        $exist = Test-Path "${{needs.config.outputs.TARGET_ARTIFACT}}.zip"
         if ($exist -eq $false) {
           echo "Error: Artifact not downloaded!"
           exit 2
