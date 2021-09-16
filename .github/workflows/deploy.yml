@@ -76,6 +76,7 @@ jobs:
             echo "Error: Artifact not downloaded!"
             exit 2
           fi
+          echo "Success: Artifact downloaded!"
 
       - name: Call script for deploy
         shell: bash
@@ -105,7 +106,7 @@ jobs:
         }
         $Uri = "${{needs.config.outputs.TARGET_URL}}
         Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "${{needs.config.outputs.TARGET_ARTIFACT}}.zip"
-
+        
     - name: Check downloaded artifact
       shell: pwsh
       run: |
@@ -114,6 +115,7 @@ jobs:
           echo "Error: Artifact not downloaded!"
           exit 2
         }
+        echo "Success: Artifact downloaded!"
 
     - name: Call script for deploy
       shell: pwsh
