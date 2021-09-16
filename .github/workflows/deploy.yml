@@ -68,14 +68,15 @@ jobs:
         run: |
           token='martcus:${{ secrets.ACTIONS_TOKEN }}'
           curl -u $token ${{needs.config.outputs.TARGET_URL}} -o "${{needs.config.outputs.TARGET_ARTIFACT}}.zip"
-          if [ -f "${{needs.config.outputs.TARGET_ARTIFACT}}.zip" ]; then
-            echo "$FILE exists."
-          fi
 
       - name: Check downloaded artifact
         shell: bash
         run: |
-          echo "Check downloaded artifact"
+          if [ ! -f "${{needs.config.outputs.TARGET_ARTIFACT}}.zip" ]; then
+            echo "Error: Artifact not downloaded!"
+            exit 2
+          fi
+
       - name: Call script for deploy
         shell: bash
         run: |
@@ -91,10 +92,29 @@ jobs:
       run: |
          echo "Download target artifact"
          echo ${{needs.config.outputs.TARGET_ARTIFACT}} ${{needs.config.outputs.TARGET_URL}}
+
+    - name: Download target artifact
+      id: download
+      shell: pwsh
+      run: |
+        # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
+        $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
+        $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
+        $Headers = @{
+          Authorization = 'Basic {0}' -f $Base64Token;
+        }
+        $Uri = "${{ needs.config.outputs.TARGET_URL }}
+        Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "{{ needs.config.outputs.TARGET_ARTIFACT }}.zip"
+
     - name: Check downloaded artifact
       shell: pwsh
       run: |
-        echo "Check downloaded artifact"
+        $exist = Test-Path "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+        if ($exist -eq $false) {
+          echo "Error: Artifact not downloaded!"
+          exit 2
+        }
+
     - name: Call script for deploy
       shell: pwsh
       run: |
