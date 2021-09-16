@@ -41,6 +41,7 @@ jobs:
           echo "\$url is empty"
           exit 1
         fi
+        
     - name: Echo Variables
       shell: bash
       if: ${{ always() }}
@@ -57,7 +58,9 @@ jobs:
         id: download
         shell: bash
         run: |
-           echo "Download target artifact"
+          echo "Download target artifact"
+          echo ${{needs.config.outputs.TARGET_ARTIFACT}} ${{needs.config.outputs.TARGET_URL}}
+           
       - name: Check downloaded artifact
         shell: bash
         run: |
@@ -76,6 +79,7 @@ jobs:
       shell: pwsh
       run: |
          echo "Download target artifact"
+         echo ${{needs.config.outputs.TARGET_ARTIFACT}} ${{needs.config.outputs.TARGET_URL}}
     - name: Check downloaded artifact
       shell: pwsh
       run: |
