@@ -43,7 +43,7 @@ jobs:
           exit 1
         fi
 
-        url=$(echo $response | jq "[ .artifacts[] | select (.id == $id) | .archive_download_url ][0]" | sed 's/"//')
+        url=$(echo $response | jq "[ .artifacts[] | select (.id == $id) | .archive_download_url ][0]" | sed 's/"//;s/"//')
         echo "::set-output name=TARGET_URL::$(echo $url)"
         if [ -z "$url" ]; then
           echo "\$url is empty"
