@@ -34,7 +34,7 @@ jobs:
       run: |
         token='martcus:${{ secrets.ACTIONS_TOKEN }}'
         response=$(curl -u martcus:$token https://api.github.com/repos/martcus/devops-in-actions/actions/artifacts)
-        id=$(echo $response | jq "[ .artifacts[] | select (.name == \"${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max")
+        id=$(echo $response | jq "[ .artifacts[] | select (.name == \"${{ steps.set-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max")
         if [ -z "$id" ]; then
           echo "Artifact ${{ steps.target-artifact.outputs.TARGET_ARTIFACT }} not found"
           exit 1
@@ -46,6 +46,9 @@ jobs:
           echo "\$url is empty"
           exit 1
         fi
+        
+        #force to quit
+        exit 2
         
     - name: Echo Variables
       shell: bash
