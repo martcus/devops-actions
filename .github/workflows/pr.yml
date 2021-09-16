@@ -1,3 +1,7 @@
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request
+# https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request
+# https://github.community/t/trigger-workflow-only-on-pull-request-merge/17359
+
 name: Pull Request on develop
 on: 
   pull_request:
