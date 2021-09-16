@@ -23,23 +23,23 @@ jobs:
     name: Set up variables
     runs-on: ubuntu-latest
     outputs:
-      TARGET_ARTIFACT: ${{ steps.set-artifact.outputs.TARGET_ARTIFACT }}
-      TARGET_URL: ${{ steps.set-url.outputs.TARGET_URL }}
+      TARGET_ARTIFACT: ${{steps.set-artifact.outputs.TARGET_ARTIFACT}}
+      TARGET_URL: ${{steps.set-url.outputs.TARGET_URL}}
     steps:
     - name: Set target artifact name
       id: set-artifact
       run: |
-        echo "::set-output name=TARGET_ARTIFACT::$(echo myartifact_${{ github.event.inputs.BRANCH }}_${{ github.event.inputs.SEMVER }})"
+        echo "::set-output name=TARGET_ARTIFACT::$(echo myartifact_${{github.event.inputs.BRANCH}}_${{github.event.inputs.SEMVER}})"
 
     - name: Set target url
       id: set-url
       shell: bash
       run: |
-        token='martcus:${{ secrets.ACTIONS_TOKEN }}'
+        token='martcus:${{secrets.ACTIONS_TOKEN}}'
         response=$(curl -u $token https://api.github.com/repos/martcus/devops-in-actions/actions/artifacts)
-        id=$(echo $response | jq "[ .artifacts[] | select (.name == \"${{ steps.set-artifact.outputs.TARGET_ARTIFACT }}\" and .expired == false) | .id ] | max")
+        id=$(echo $response | jq "[ .artifacts[] | select (.name == \"${{steps.set-artifact.outputs.TARGET_ARTIFACT}}\" and .expired == false) | .id ] | max")
         if [ -z "$id" ]; then
-          echo "Artifact ${{ steps.target-artifact.outputs.TARGET_ARTIFACT }} not found"
+          echo "Artifact ${{steps.target-artifact.outputs.TARGET_ARTIFACT}} not found"
           exit 1
         fi
 
@@ -54,8 +54,8 @@ jobs:
       shell: bash
       if: ${{ always() }}
       run: |
-        echo "${{ steps.set-artifact.outputs.TARGET_ARTIFACT }}"
-        echo "${{ steps.set-url.outputs.TARGET_URL }}"
+        echo "${{steps.set-artifact.outputs.TARGET_ARTIFACT}}"
+        echo "${{steps.set-url.outputs.TARGET_URL}}"
 
   nix:
     name: Linux Deploy
@@ -66,7 +66,7 @@ jobs:
         id: download
         shell: bash
         run: |
-          token='martcus:${{ secrets.ACTIONS_TOKEN }}'
+          token='martcus:${{secrets.ACTIONS_TOKEN}}'
           curl -u $token ${{needs.config.outputs.TARGET_URL}} -o "${{needs.config.outputs.TARGET_ARTIFACT}}.zip"
 
       - name: Check downloaded artifact
@@ -98,18 +98,18 @@ jobs:
       shell: pwsh
       run: |
         # ref: https://channel9.msdn.com/Blogs/trevor-powershell/Automating-the-GitHub-REST-API-Using-PowerShell
-        $Token = 'martcus:${{ secrets.ACTIONS_TOKEN }}'
+        $Token = 'martcus:${{secrets.ACTIONS_TOKEN}}'
         $Base64Token = [System.Convert]::ToBase64String([char[]]$Token);
         $Headers = @{
           Authorization = 'Basic {0}' -f $Base64Token;
         }
-        $Uri = "${{ needs.config.outputs.TARGET_URL }}
-        Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "{{ needs.config.outputs.TARGET_ARTIFACT }}.zip"
+        $Uri = "${{needs.config.outputs.TARGET_URL}}
+        Invoke-WebRequest -Headers $Headers -Uri $Uri -Method Get -OutFile "{{needs.config.outputs.TARGET_ARTIFACT}}.zip"
 
     - name: Check downloaded artifact
       shell: pwsh
       run: |
-        $exist = Test-Path "${{ steps.target-artifact.outputs.TARGET_ARTIFACT }}.zip"
+        $exist = Test-Path "${{steps.target-artifact.outputs.TARGET_ARTIFACT}}.zip"
         if ($exist -eq $false) {
           echo "Error: Artifact not downloaded!"
           exit 2
