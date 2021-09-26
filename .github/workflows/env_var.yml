@@ -2,9 +2,10 @@ name: workflow-level-custom-environment-variables
 
 on: 
   workflow_dispatch:
-    ENVIROMENT:
-    description: "environment: the target environment where to execute the validatation or deployment"
-    required: true
+    inputs:
+      ENVIROMENT:
+        description: "environment: the target environment where to execute the validatation or deployment"
+        required: true
 
 # Here the environment variable is declared in workflow level
 env:
