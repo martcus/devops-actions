@@ -1,0 +1,29 @@
+name: workflow-level-custom-environment-variables
+
+on: 
+  workflow_dispatch:
+    ENVIROMENT:
+    description: "environment: the target environment where to execute the validatation or deployment"
+    required: true
+
+# Here the environment variable is declared in workflow level
+env:
+    PUBLICENV: ${{ github.event.inputs.ENVIROMENT }}
+
+jobs:
+    sample-job-1:
+        runs-on: ubuntu-latest
+        steps:
+            - name: step-1
+              run: echo "${PUBLICENV}"
+              # This will echo the value/string of PUBLICENV
+
+            - name: step-2
+              run: echo "${PUBLICENV}"
+              # This will echo the value/string of PUBLICENV
+
+    sample-job-2:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "${PUBLICENV}"
+            # This will echo the value/string of PUBLICENV
