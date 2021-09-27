@@ -11,16 +11,22 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: create workspace
+        run: |
+          mkdir /home/workspace
+          echo ${{ GITHUB_WORKSPACE }}
       - name: Checkout
         uses: actions/checkout@v2
+        with:  
+          path: "./../../../../workspace"
       - name: Check dir
         run: |
           pwd
+          
       - name: Full
         if: ${{ success() && github.event.inputs.MYARG == 'full' }}
         run: |
           echo "full"
-      
       - name: Custom
         if: ${{ success() && github.event.inputs.MYARG == 'custom' }}
         run: |
