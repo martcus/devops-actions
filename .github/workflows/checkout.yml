@@ -14,7 +14,6 @@ jobs:
       - name: create workspace
         run: |
           mkdir /home/workspace
-          echo ${{ GITHUB_WORKSPACE }}
       - name: Checkout
         uses: actions/checkout@v2
         with:  
