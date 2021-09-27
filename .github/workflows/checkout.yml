@@ -17,11 +17,11 @@ jobs:
         run: |
           pwd
       - name: Full
-        if: ${{ success() && (${{ ${{ github.event.inputs.MYARG }} }} == 'full') }}
+        if: ${{ success() && github.event.inputs.MYARG == 'full' }}
         run: |
           echo "full"
       
       - name: Custom
-        if: ${{ success() && (${{ ${{ github.event.inputs.MYARG }} }} == 'custom') }}
+        if: ${{ success() && github.event.inputs.MYARG == 'custom' }}
         run: |
           echo "custom"
