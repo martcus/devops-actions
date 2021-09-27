@@ -11,8 +11,13 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: create workspace
+        run: |
+          mkdir $HOME/workspace
       - name: Checkout
         uses: actions/checkout@v2
+        with:  
+          path: "./../../../workspace"    
       - name: Check dir
         run: |
           pwd
