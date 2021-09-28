@@ -1,3 +1,1 @@
 # devops-actions
-
-Awesome commit!
