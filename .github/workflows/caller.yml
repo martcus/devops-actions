@@ -1,0 +1,10 @@
+name: Call a reusable workflow
+
+on:
+  push
+
+jobs:
+  call-workflow-passing-data:
+    uses: https://github.com/martcus/devops-in-actions/blob/master/.github/workflows/reusable.yml@master
+    with:
+      username: mona
