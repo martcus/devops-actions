@@ -1,10 +1,14 @@
 name: Call a reusable workflow
 
 on:
-  push
+  workflow_dispatch:
+    inputs:
+      username:
+        required: true
+
 
 jobs:
   call-workflow-passing-data:
     uses: martcus/devops-in-actions/.github/workflows/reusable.yml@master
     with:
-      username: mona
+      username: ${{ inputs.username }}
