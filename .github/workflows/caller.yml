@@ -11,4 +11,4 @@ jobs:
   call-workflow-passing-data:
     uses: martcus/devops-in-actions/.github/workflows/reusable.yml@master
     with:
-      username: ${{ inputs.username }}
+      username: ${{github.event.inputs.username}}
