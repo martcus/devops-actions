@@ -10,7 +10,7 @@ on:
         - monalisa
         - the birth of venus
         - meisje met de parel
-        default: cschleiden
+        default: the birth of venus
       message:
         type: text
         required: true
