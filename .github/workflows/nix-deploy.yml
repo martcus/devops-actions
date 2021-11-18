@@ -24,12 +24,6 @@ jobs:
         ref: ${{ github.event.inputs.BRANCH }}
         lfs: 'true'
     
-    - uses: actions/download-artifact@v2
-      id: download
-      with:
-        name: 'artifact_develop-0.0.1'
-        path: .
-
     # https://github.com/dawidd6/action-download-artifact
     - name: Download artifact
       uses: lovettchris/action-download-artifact@master
