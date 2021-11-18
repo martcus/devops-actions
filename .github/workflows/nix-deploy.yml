@@ -39,6 +39,4 @@ jobs:
       run: |
         ls -al
         cd ${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
-        ls -al
-        cat artifact.txt
-        
+        ls -al  
