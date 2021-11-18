@@ -32,7 +32,7 @@ jobs:
       - name: Build target branch
         run: |
              echo "Executing build"
-             echo "hello artifact: ${{ github.event.inputs.BRANCH }} ${{ github.event.inputs.SEMVER }}" > "artifact-${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}".txt
+             echo "hello artifact: ${{ github.event.inputs.BRANCH }} ${{ github.event.inputs.SEMVER }}" > artifact.txt
              
       - name: Upload artifact
         uses: actions/upload-artifact@v2
