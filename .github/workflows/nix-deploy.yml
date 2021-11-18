@@ -26,13 +26,12 @@ jobs:
     
     # https://github.com/dawidd6/action-download-artifact
     - name: Download artifact
-      uses: lovettchris/action-download-artifact@master
+      uses: dawidd6/action-download-artifact@v2
       with:
         # github_token: ${{secrets.ACTIONS_TOKEN}}
         workflow: nix-build.yml
         workflow_conclusion: success
         repo: ${{github.repository}}
-        name: artifact_${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
         path: ${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
         check_artifacts: true
         
