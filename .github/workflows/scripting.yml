@@ -13,5 +13,6 @@ jobs:
     - name: Call script
       run: |
         pwd
+        ls -al
         chmod +x ./scripts/hello.sh
         ./scripts/hello.sh        
