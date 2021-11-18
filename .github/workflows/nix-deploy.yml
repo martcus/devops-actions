@@ -33,8 +33,12 @@ jobs:
         workflow_conclusion: success
         repo: ${{github.repository}}
         name: artifact_${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
+        path: ${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
         
     - name: Check artifact
       run: |
         ls -al
+        cd ${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
+        ls -al
+        cat artifact.txt
         
