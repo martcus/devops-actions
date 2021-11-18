@@ -1,0 +1,32 @@
+name: Ubuntu - Deploy workflow 
+# Example with cli
+# gh workflow run nix-deploy.yml -f BRANCH=master -f SEMVER=0.0.2 -f ENVIROMENT=Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      BRANCH:
+        description: 'branch name'
+        required: true
+      SEMVER:
+        description: 'semver (major.minor.patch)'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout target branch
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.inputs.BRANCH }}
+        lfs: 'true'
+    - name: Download artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: nix-build.yml
+    - name: Check artifact
+      run: |
+        ls -al
+        
