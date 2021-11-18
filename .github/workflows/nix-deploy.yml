@@ -17,15 +17,21 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
+    
     - name: Checkout target branch
       uses: actions/checkout@v2
       with:
         ref: ${{ github.event.inputs.BRANCH }}
         lfs: 'true'
+        
+    # https://github.com/dawidd6/action-download-artifact
     - name: Download artifact
       uses: dawidd6/action-download-artifact@v2
       with:
+        github_token: ${{secrets.ACTIONS_TOKEN}}
         workflow: nix-build.yml
+        workflow_conclusion: success
+        
     - name: Check artifact
       run: |
         ls -al
