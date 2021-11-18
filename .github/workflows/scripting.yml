@@ -1,0 +1,17 @@
+name: Test script
+
+on:
+  workflow_dispatch
+
+jobs:
+  script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout target branch
+      uses: actions/checkout@v2
+    - name: Call script
+      run: |
+        pwd
+        chmod +x ./scripts/hello.sh
+        ./scripts/hello.sh        
