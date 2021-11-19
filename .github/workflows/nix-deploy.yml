@@ -28,7 +28,7 @@ jobs:
     - name: Download artifact
       uses: martcus/action-download-artifact@master
       with:
-        # github_token: ${{secrets.ACTIONS_TOKEN}}
+        github_token: ${{secrets.ACTIONS_TOKEN}}
         workflow: nix-build.yml
         workflow_conclusion: success
         repo: ${{github.repository}}
