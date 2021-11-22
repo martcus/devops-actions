@@ -29,5 +29,5 @@ jobs:
           cd ./master/scripts
           ls -al
           chmod +x ./hello.sh
-          ./hello.sh ${{ secrets.MY_TESTING_SECRET }}
+          bash -x ./hello.sh ${{ secrets.MY_TESTING_SECRET }}
           
