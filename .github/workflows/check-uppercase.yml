@@ -3,8 +3,20 @@ on:
 
 name: check uppercase
 jobs:
+  set-var:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact: ${{ steps.current-artifact.outputs.CURRENT_ARTIFACT }}
+    steps:
+      - name: Set variable
+        id: set-variable
+        shell: bash
+        run: |
+              echo "::set-output name=MY_VAR::$(echo ${{ secrets.MY_TESTING_SECRET }})"
+          
   update-ghpages:
     runs-on: ubuntu-latest
+    needs: set-var
     name: Check
     steps:
       - name: Checkout master branch
@@ -30,4 +42,6 @@ jobs:
           ls -al
           chmod +x ./hello.sh
           bash -x ./hello.sh ${{ secrets.MY_TESTING_SECRET }}
+          bash -x ./hello.sh ${{needs.set-var.outputs.MY_VAR}}
+          
           
