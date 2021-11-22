@@ -1,0 +1,25 @@
+on:
+  workflow_dispatch
+
+name: check uppercase
+jobs:
+  update-ghpages:
+    runs-on: ubuntu-latest
+    name: Check
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+          path: master
+      - name: Check if github pages must be update    
+        run: |
+          cd ./master
+          GREP=$(grep '[A-Z]' README.md)
+          if [ -z "$GREP" ]; then
+            echo "No uppercase characters detected"
+            exit 0
+          else
+            echo "Uppercase characters detected!" 
+            exit 1
+          fi
