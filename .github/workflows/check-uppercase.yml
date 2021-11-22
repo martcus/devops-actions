@@ -26,8 +26,8 @@ jobs:
       - name: check secrets
         run: |
           pwd
-          cd ./master
+          cd ./master/scripts
           ls -al
-          chmod +x ./scripts/hello.sh
+          chmod +x ./hello.sh
           ./hello.sh ${{ secrets.MY_TESTING_SECRET }}
           
