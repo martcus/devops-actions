@@ -1,3 +1,3 @@
 # devops-actions
 
-edit from Vscode.dev
+edit from vscode.dev
