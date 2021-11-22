@@ -25,6 +25,7 @@ jobs:
           fi
       - name: check secrets
         run: |
+          cd ./master
           chmod +x ./scripts/hello.sh
           ./hello.sh ${{ secrets.MY_TESTING_SECRET }}
           
