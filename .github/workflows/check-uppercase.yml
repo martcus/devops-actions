@@ -15,8 +15,8 @@ jobs:
       - name: Check if github pages must be update    
         run: |
           cd ./master
-          GREP=$(grep '[A-Z]' README.md)
-          if [ -z "$GREP" ]; then
+          GREP=$(grep '[A-Z]' README.md > greppone || true)
+          if [ ! -s greppone ]; then
             echo "No uppercase characters detected"
             exit 0
           else
