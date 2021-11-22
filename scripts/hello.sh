@@ -2,4 +2,4 @@
 
 echo "Hello word from script!"
 
-echo $1
+echo "This is your secret: $1 !"
