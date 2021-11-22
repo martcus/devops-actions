@@ -41,7 +41,7 @@ jobs:
           cd ./master/scripts
           ls -al
           chmod +x ./hello.sh
-          bash -x ./hello.sh ${{ secrets.MY_TESTING_SECRET }}
-          bash -x ./hello.sh ${{needs.set-var.outputs.MY_VAR}}
+          ./hello.sh ${{ secrets.MY_TESTING_SECRET }}
+          ./hello.sh ${{needs.set-var.outputs.MY_VAR}}
           
           
