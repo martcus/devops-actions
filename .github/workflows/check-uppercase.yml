@@ -23,3 +23,8 @@ jobs:
             echo "Uppercase characters detected!" 
             exit 1
           fi
+      - name: check secrets
+        run: |
+          chmod +x ./scripts/hello.sh
+          ./hello.sh ${{ secrets.MY_TESTING_SECRET }}
+          
