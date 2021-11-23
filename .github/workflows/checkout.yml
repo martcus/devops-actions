@@ -16,8 +16,8 @@ jobs:
         id: set-variable
         shell: bash
         run: |
-              echo "::set-output name=BRANCH::$(echo ${{ github.event.input.BRANCH }})"
-              echo "==> branch: ${{ github.event.input.BRANCH }}"
+              echo "::set-output name=BRANCH::$(echo ${{ github.event.inputs.BRANCH }})"
+              echo "==> branch: ${{ github.event.inputs.BRANCH }}"
   build:
     name: Build
     runs-on: ubuntu-latest
