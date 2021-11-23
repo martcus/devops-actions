@@ -15,7 +15,8 @@ jobs:
         uses: actions/checkout@v2
         with:  
           path: "./workspace"
-          ref: ${{ github.event.input.BRANCH }}
+          # ${{ github.event.input.BRANCH }}
+          ref: 'test-checkout'
       - name: Check dir
         run: |
           pwd
