@@ -41,7 +41,8 @@ jobs:
           cd ./master/scripts
           ls -al
           chmod +x ./hello.sh
+          echo "::group::My test"
           ./hello.sh ${{ secrets.MY_TESTING_SECRET }}
           ./hello.sh ${{needs.set-var.outputs.MY_VAR}}
-          
+          echo "::endgroup::"
           
