@@ -2,7 +2,7 @@ name: Checkout
 on: 
   workflow_dispatch:
     inputs:
-      MYARG:
+      BRANCH:
         description: 'branch'
         required: true
 
