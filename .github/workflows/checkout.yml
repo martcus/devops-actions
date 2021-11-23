@@ -16,7 +16,7 @@ jobs:
         with:  
           path: "./workspace"
           # ${{ github.event.input.BRANCH }}
-          ref: 'test-checkout'
+          ref: '${{ github.event.input.BRANCH }}'
       - name: Check dir
         run: |
           pwd
