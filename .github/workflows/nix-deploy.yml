@@ -34,7 +34,7 @@ jobs:
         repo: ${{github.repository}}
         path: ${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
         name: artifact_${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
-        search: true
+        search_artifacts: true
         
     - name: Check artifact
       run: |
