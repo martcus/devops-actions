@@ -23,7 +23,7 @@ jobs:
     needs: set-var
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4
+        uses: actions/checkout@v2.4.0
         with:  
           path: "./workspace"
           ref: ${{needs.set-var.outputs.BRANCH}}
