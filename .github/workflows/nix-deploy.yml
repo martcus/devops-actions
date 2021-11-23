@@ -33,7 +33,8 @@ jobs:
         workflow_conclusion: success
         repo: ${{github.repository}}
         path: ${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
-        search: artifact_${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
+        name: artifact_${{ github.event.inputs.BRANCH }}-${{ github.event.inputs.SEMVER }}
+        search: true
         
     - name: Check artifact
       run: |
