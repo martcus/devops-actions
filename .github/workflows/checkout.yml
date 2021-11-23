@@ -7,18 +7,29 @@ on:
         required: true
 
 jobs:
+  set-var:
+    runs-on: ubuntu-latest
+    outputs:
+      BRANCH: ${{ steps.set-variable.outputs.BRANCH }}
+    steps:
+      - name: Set variable
+        id: set-variable
+        shell: bash
+        run: |
+              echo "::set-output name=BRANCH::$(echo ${{ github.event.input.BRANCH }})"
   build:
     name: Build
     runs-on: ubuntu-latest
+    needs: set-var
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4
         with:  
           path: "./workspace"
-          # ${{ github.event.input.BRANCH }}
-          ref: '${{ github.event.input.BRANCH }}'
+          ref: ${{needs.set-var.outputs.BRANCH}}
       - name: Check dir
         run: |
+          echo ${{needs.set-var.outputs.BRANCH}}
           pwd
           ls -al
       - name: Check workspace
