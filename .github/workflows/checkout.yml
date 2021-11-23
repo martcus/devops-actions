@@ -17,6 +17,7 @@ jobs:
         shell: bash
         run: |
               echo "::set-output name=BRANCH::$(echo ${{ github.event.input.BRANCH }})"
+              echo "==> branch: ${{ github.event.input.BRANCH }}"
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -29,7 +30,7 @@ jobs:
           ref: ${{needs.set-var.outputs.BRANCH}}
       - name: Check dir
         run: |
-          echo ${{needs.set-var.outputs.BRANCH}}
+          echo "==> branch: ${{needs.set-var.outputs.BRANCH}}"
           pwd
           ls -al
       - name: Check workspace
