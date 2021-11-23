@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       MYARG:
-        description: 'arguments (full/custom)'
+        description: 'branch'
         required: true
 
 jobs:
@@ -14,7 +14,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:  
-          path: "./workspace"    
+          path: "./workspace"
+          ref: ${{ github.event.input.BRANCH }}
       - name: Check dir
         run: |
           pwd
@@ -24,3 +25,4 @@ jobs:
           cd ./workspace
           ls -al
           pwd
+          cat README.md
