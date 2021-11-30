@@ -18,7 +18,7 @@ jobs:
       name: Generate python script
       run: |
          cat > ./python.py <<EOL
-         print("Hello from python!"
+         print("Hello from python!")
          exit(1)
          EOL
     - 
