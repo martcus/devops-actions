@@ -1,7 +1,6 @@
 name: Python script
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
@@ -9,11 +8,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout target branch
+    - 
+      name: Setup Python
+      uses: actions/setup-python@v2.3.1
+    - 
+      name: Checkout target branch
       uses: actions/checkout@v2
-    - name: Generate python and bash script
+    - 
+      name: Generate python script
       run: |
-        echo "hello"
-    - name: Execute script
+         cat > ./python.py <<EOL
+         print("Hello from python!"
+         exit(1)
+         EOL
+    - 
+      name: Generate bash script
       run: |
-        echo "execute"
+         cat > ./script.sh <<EOL
+         python ./python.py
+         EOL
+         chmod +x script.sh
+    - 
+      name: Execute script
+      run: |
+        ./script.sh
