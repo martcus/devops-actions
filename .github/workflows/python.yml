@@ -1,0 +1,18 @@
+name: Python script
+
+on:
+  workflow_dispatch
+
+jobs:
+  script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout target branch
+      uses: actions/checkout@v2
+    - name: Generate python and bash script
+      run: |
+        echo "hello"
+    - name: Execute script
+      run: |
+        echo "execute"
