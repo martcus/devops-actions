@@ -19,7 +19,7 @@ jobs:
       run: |
          cat > ./python.py <<EOL
          print("Hello from python!")
-         exit(1)
+         exit(99)
          EOL
     - 
       name: Generate bash script
