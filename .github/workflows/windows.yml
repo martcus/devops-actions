@@ -41,7 +41,7 @@ jobs:
                 echo "ok"
             } else {
               echo "input branch is not valid!"
-              exit 1
+              Write-Error "input branch is not valid!"
             }
       - name: Happy ending
         run: |
