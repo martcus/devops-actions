@@ -32,6 +32,7 @@ jobs:
           java --version
       - name: Set Variables
         id: environment
+        shell: powershell
         run: |
             if ("${{ github.event.inputs.branch }}" -like "release\*") {
                 echo "ok"
