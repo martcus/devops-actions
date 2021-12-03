@@ -1,5 +1,20 @@
 name: Win - Windows 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'branch that is built by the workflow'
+        required: true
+      typeBuild:
+        type: choice
+        description: 'Build type (full/packages)'
+        options: 
+        - full
+        - packages
+        default: 'full'
+      packages:
+        description: 'List of packages to build, separeted by comma (ie Lead,Item,...)'
+        required: false
 
 jobs:
   quality:
@@ -15,4 +30,19 @@ jobs:
         shell: pwsh
         run: |
           java --version
-        
+      - name: Set Variables
+        id: environment
+        run: |
+            if ("${{ github.event.inputs.branch }}" -like "release\*") {
+                echo "ok"
+            } elseif ("${{ github.event.inputs.branch }}" -eq "master") {
+                echo "ok"
+            } elseif ("${{ github.event.inputs.branch }}" -eq "develop") {
+                echo "ok"
+            } else {
+              echo "input branch is not valid!"
+              exit 1
+            }
+      - name: Happy ending
+        run: |
+          echo "be happy!"
