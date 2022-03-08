@@ -1,0 +1,20 @@
+name: Dynamic Runner
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      runner: ${{ steps.runner.outputs.runner }}
+
+    steps:
+    - id: runner
+      run: echo "::set-output name=runner::macos-latest"
+
+  test:
+    needs: [build]
+    runs-on: ${{ needs.build.outputs.runner }}
+    steps:
+      - run: echo I Ran
