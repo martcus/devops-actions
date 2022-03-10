@@ -1,20 +1,34 @@
 name: Dynamic Runner
 on:
   workflow_dispatch:
+    inputs:
+      destinationEnv:
+        type: choice
+        description: 'Name of deploy destination Environment'
+        options: 
+        - DEV
+        - TEST
+        - UAT
+        required: true
 
 jobs:
-
-  build:
+  check-runner:
     runs-on: ubuntu-latest
     outputs:
       runner: ${{ steps.runner.outputs.runner }}
-
     steps:
     - id: runner
-      run: echo "::set-output name=runner::macos-latest"
+      run: |
+        if [ "${{ github.event.inputs.destinationEnv }}" = "DEV" ]; then
+          echo "::set-output name=runner::ubuntu-latest"
+        elif [ "${{ github.event.inputs.destinationEnv }}" = "TEST" ]; then
+          echo "::set-output name=runner::macos-latest"
+        elif [ "${{ github.event.inputs.destinationEnv }}" = "UAT" ]; then
+          echo "::set-output name=runner::windows-latest"
+        fi
 
   test:
-    needs: [build]
+    needs: [check-runner]
     runs-on: ${{ needs.build.outputs.runner }}
     steps:
       - run: echo I Ran
