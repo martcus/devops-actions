@@ -29,6 +29,6 @@ jobs:
 
   test:
     needs: [check-runner]
-    runs-on: ${{ needs.build.outputs.runner }}
+    runs-on: ${{ needs.check-runner.outputs.runner }}
     steps:
       - run: echo I Ran
