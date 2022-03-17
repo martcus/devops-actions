@@ -2,7 +2,7 @@ name: Scheduled
 
 on:
   schedule:
-    - cron: '45 8 * * *'
+    - cron: '00 * * * *'
     - cron: '0 7 */10 * *'
   workflow_dispatch:
 
