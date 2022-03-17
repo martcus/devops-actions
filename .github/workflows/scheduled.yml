@@ -1,0 +1,10 @@
+on:
+  schedule:
+    - cron: '* 7 */10 * *'
+
+jobs:
+  test_schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping
+        run: echo "Ping"
