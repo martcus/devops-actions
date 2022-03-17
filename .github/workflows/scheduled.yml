@@ -3,7 +3,6 @@ name: Scheduled
 on:
   schedule:
     - cron: '00 * * * *'
-    - cron: '0 7 */10 * *'
   workflow_dispatch:
 
 jobs:
