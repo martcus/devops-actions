@@ -1,0 +1,27 @@
+name: List commit of a PR
+on: 
+  pull_request:
+    branches:
+      - develop
+    types: [opened]
+  workflow_dispatch:
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+    name: Build develop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        id: set-result
+        with:
+          script: |
+            commits = octokit.rest.pulls.listCommits({
+              "martcus",
+              "devops-in-actions",
+              20,
+            });
+            console.log(commmits)
+          result-encoding: string
+      - run: |
+            echo "Hello Build!"
