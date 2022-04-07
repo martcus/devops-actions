@@ -16,11 +16,7 @@ jobs:
         with:
           script: |
            # https://octokit.github.io/rest.js/v18#pulls-list-commits 
-            commits = github.rest.pulls.listCommits({
-              owner: 'martcus',
-              repo: 'devops-in-actions',
-              pull_number: 20
-            });
+            commits = github.rest.pulls.listCommits({'martcus', 'devops-in-actions', 20 });
             console.log(commmits);
           result-encoding: string
       - run: |
