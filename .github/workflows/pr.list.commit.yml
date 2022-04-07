@@ -20,7 +20,7 @@ jobs:
               "devops-in-actions",
               20
             });
-            console.log(commmits)
+            console.log(commmits);
           result-encoding: string
       - run: |
             echo "Hello Build!"
