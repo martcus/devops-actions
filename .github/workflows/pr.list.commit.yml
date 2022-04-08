@@ -33,6 +33,7 @@ jobs:
             console.log("Commit list:")
             for (const commit of commits.data) {
               console.log(commit.sha)
+              console.log(commit.commit.message)
             }
             ;
       - run: |
