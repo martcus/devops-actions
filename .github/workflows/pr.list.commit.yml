@@ -11,20 +11,23 @@ jobs:
     name: script
     runs-on: ubuntu-latest
     steps:
+      - name: context
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log(context);
+          result-encoding: string
+
+            # https://octokit.github.io/rest.js/v18#pulls-list-commits
       - uses: actions/github-script@v6
         with:
-          #github.pulls.listCommits({
-            #owner: "martcus", 
-            #repo: "devops-in-actions", 
-            #pull_number: "20"
-            #})
-            # https://octokit.github.io/rest.js/v18#pulls-list-commits
           script: |
-
-            console.log(context)
-            
-            
+            commits = github.pulls.listCommits({
+              owner: "martcus", 
+              repo: "devops-in-actions", 
+              pull_number: "20"
+            })
+            console.log(commits)
             ;
-          result-encoding: string
       - run: |
             echo "Hello Build!"
