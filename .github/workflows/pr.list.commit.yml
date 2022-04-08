@@ -22,7 +22,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            commits = github.pulls.listCommits({
+            commits = github.rest.pulls.listCommits({
               owner: "martcus", 
               repo: "devops-in-actions", 
               pull_number: "20"
