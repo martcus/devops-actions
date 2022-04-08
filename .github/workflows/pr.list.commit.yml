@@ -13,15 +13,17 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         with:
-          script: |
-            # https://octokit.github.io/rest.js/v18#pulls-list-commits
-            console.log(context)
-            
-            #github.pulls.listCommits({
+          #github.pulls.listCommits({
             #owner: "martcus", 
             #repo: "devops-in-actions", 
             #pull_number: "20"
             #})
+            # https://octokit.github.io/rest.js/v18#pulls-list-commits
+          script: |
+
+            console.log(context)
+            
+            
             ;
           result-encoding: string
       - run: |
