@@ -28,6 +28,11 @@ jobs:
               pull_number: "20"
             })
             console.log(commits)
+            
+            console.log("---------")
+            for (const commit of commits.data) {
+              console.log(commit)
+            }
             ;
       - run: |
             echo "Hello Build!"
