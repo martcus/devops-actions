@@ -15,7 +15,7 @@ env:
 jobs:
   deploy:
     environment: 
-      name: ${{ env.env-id }}
+      name: ${{ env-id }}
     runs-on: ubuntu-latest
 
     steps:
