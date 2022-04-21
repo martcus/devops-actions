@@ -6,10 +6,13 @@ on:
       env-id:
         description: 'Environment ID'
         type: environment
-        required: true 
+        required: true
+
 
 jobs:
-  check-branch:
+  deploy:
+    environment: 
+      name: ${{ github.event.inputs.env-id }}
     runs-on: ubuntu-latest
 
     steps:
