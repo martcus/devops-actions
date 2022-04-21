@@ -8,11 +8,14 @@ on:
         type: environment
         required: true
 
+env:
+  env-id: ${{ github.event.inputs.env-id }}
+
 
 jobs:
   deploy:
     environment: 
-      name: ${{ github.event.inputs.env-id }}
+      name: ${{ env.env-id }}
     runs-on: ubuntu-latest
 
     steps:
