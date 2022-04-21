@@ -1,0 +1,24 @@
+name: Branch name
+
+on:
+  workflow_dispatch:
+    inputs:
+      env-id:
+        description: 'Environment ID'
+        type: environment
+        required: true 
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Extract branch name
+        shell: bash
+        run: | 
+          echo ${GITHUB_REF#refs/heads/}
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
