@@ -24,3 +24,9 @@ jobs:
           echo ${GITHUB_REF#refs/heads/}
           echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
+
+      - name: Print secret ^_^
+        shell: bash
+        run: |
+          echo "URL:  ${{ secrets.ENV_URL }}"
+          
