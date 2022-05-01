@@ -12,3 +12,11 @@ runs:
       shell: bash
       run: |
         echo "${{ inputs.message }}"
+    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash
+    - run: echo "${{ github.action_path }}"
+      shell: bash
+    - name: Read the message
+      shell: bash
+      run: |
+        echo "${{ inputs.message }}"
