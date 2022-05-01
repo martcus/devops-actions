@@ -20,4 +20,6 @@ jobs:
     - name: try it out
       uses: ./.github/actions/composite-action
       with:
-        message: "hello!"
+        username: ${{github.event.inputs.username}}
+    - run: |
+        echo $message_in_the_bottle

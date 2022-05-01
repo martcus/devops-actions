@@ -1,22 +1,19 @@
 name: "Action composite"
 description: "A test action"
 inputs:
-  message:
+  username:
     required: true
-    description: "a message in a bottle"
+    description: "a username in a bottle"
 
 runs:
   using: composite
   steps:
-    - name: Read the message
-      shell: bash
-      run: |
-        echo "${{ inputs.message }}"
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
       shell: bash
     - run: echo "${{ github.action_path }}"
       shell: bash
-    - name: Read the message
+    - name: Read the username
       shell: bash
       run: |
-        echo "${{ inputs.message }}"
+        echo "hello ${{ inputs.username }}"
+        message_in_the_bottle="secret message"
