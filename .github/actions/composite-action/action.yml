@@ -8,10 +8,6 @@ inputs:
 run:
   using: composite
   steps:
-    - name: Action path
-      shell: bash
-      run: |
-        echo "${{ github.action_path }}"
     - name: Read the message
       shell: bash
       run: |
