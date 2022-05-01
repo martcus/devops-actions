@@ -14,6 +14,9 @@ jobs:
       username: ${{github.event.inputs.username}}
 
   composite:
-    uses: ./.github/actions/composite-action@master
-    with:
-      message: "hello!"
+    runs-on: ubuntu-latest
+    steps:
+    - name: try it out
+      uses: ./.github/actions/composite-action@master
+      with:
+        message: "hello!"
