@@ -18,6 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: try it out
-      uses: ./.github/actions/composite-action@master
+      uses: ./.github/actions/composite-action
       with:
         message: "hello!"
