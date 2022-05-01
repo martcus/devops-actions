@@ -5,7 +5,7 @@ inputs:
     required: true
     description: "a message in a bottle"
 
-run:
+runs:
   using: composite
   steps:
     - name: Read the message
