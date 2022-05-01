@@ -16,6 +16,7 @@ jobs:
   composite:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: try it out
       uses: ./.github/actions/composite-action@master
       with:
