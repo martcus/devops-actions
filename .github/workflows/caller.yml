@@ -12,3 +12,8 @@ jobs:
     uses: martcus/devops-in-actions/.github/workflows/called.yml@master
     with:
       username: ${{github.event.inputs.username}}
+
+  composite:
+    uses: ./.github/actions/composite-action
+    with:
+      message: "hello!"

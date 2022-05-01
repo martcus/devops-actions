@@ -1,0 +1,20 @@
+${{ github.action_path }}
+
+name: "Action composite"
+description: "A test action"
+inputs:
+  message:
+    required: true
+    description: "a message in a bottle"
+
+run:
+  using: composite
+  steps:
+    - name: Action path
+      shell: bash
+      run: |
+        echo "${{ github.action_path }}"
+    - name: Read the message
+      shell: bash
+      run: |
+        echo "${{ inputs.message }}"
