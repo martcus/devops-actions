@@ -1,5 +1,3 @@
-${{ github.action_path }}
-
 name: "Action composite"
 description: "A test action"
 inputs:
