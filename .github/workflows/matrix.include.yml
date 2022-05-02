@@ -4,14 +4,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  example_matrix:
+  frontned:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello"
+  
+  backend:
     strategy:
       matrix:
         include:
-          - os: windows-latest
+          - backend: backend
             node: 16
             npm: 6
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v3
         with:
