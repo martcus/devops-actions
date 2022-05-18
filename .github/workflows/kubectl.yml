@@ -17,3 +17,4 @@ jobs:
         with:
           version: "latest"
         id: install
+      - run: kubectl version 
