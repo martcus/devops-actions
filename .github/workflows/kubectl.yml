@@ -17,4 +17,8 @@ jobs:
         with:
           version: "latest"
         id: install
+  
+      - name: Adding markdown
+        run: echo '### Hello world! :rocket:' >> $GITHUB_STEP_SUMMARY
+      
       - run: kubectl version 
