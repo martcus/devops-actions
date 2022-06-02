@@ -9,7 +9,6 @@ jobs:
     steps:
       - name: Step 1
         run: |
-          CUSTOM_STEP_SUMMARY+="- step 1a\n"
           echo "CUSTOM_STEP_SUMMARY+=- step 1a\n" >> $GITHUB_ENV
           echo "CUSTOM_STEP_SUMMARY+=- step 1b\n" >> $GITHUB_ENV
       - name: Step 2
