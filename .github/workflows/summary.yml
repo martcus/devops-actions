@@ -9,10 +9,10 @@ jobs:
     steps:
       - name: Step 1
         run: |
-          echo "- step 1a" >> CUSTOM_STEP_SUMMARY
-          echo "- step 1b" >> CUSTOM_STEP_SUMMARY
+          CUSTOM_STEP_SUMMARY+="- step 1a"
+          CUSTOM_STEP_SUMMARY+="\n- step 1b"
       - name: Step 2
-        run: echo "- step 2" >> CUSTOM_STEP_SUMMARY
-      - name: Summary
-        run: |
+        run: \
+          CUSTOM_STEP_SUMMARY+="\n- step 2"
+      - run: |
           echo "$CUSTOM_STEP_SUMMARY" >> $GITHUB_STEP_SUMMARY
