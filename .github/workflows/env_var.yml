@@ -1,6 +1,6 @@
 name: workflow-level-custom-environment-variables
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       ENVIROMENT:
@@ -18,6 +18,10 @@ jobs:
       - name: step-1
         run: echo "${PUBLICENV}"
         # This will echo the value/string of PUBLICENV
+      - name: Set env
+        run: echo "MY_ENV=$(echo \"# Hello\")" >> $GITHUB_ENV
+      - name: Test
+        run: echo $MY_ENV
 
   sample-job-1:
     runs-on: ubuntu-latest
