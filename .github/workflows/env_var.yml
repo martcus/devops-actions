@@ -19,7 +19,9 @@ jobs:
         run: echo "${PUBLICENV}"
         # This will echo the value/string of PUBLICENV
       - name: Set env
-        run: echo "MY_ENV=$(echo \"# Hello\")" >> $GITHUB_ENV
+        run: |
+          echo "MY_ENV=$(echo "# Hello")" >> $GITHUB_ENV
+          echo "MY_ENV=$MY_ENV\n$(echo "# World")" >> $GITHUB_ENV
       - name: Test
         run: echo $MY_ENV
 
