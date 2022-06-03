@@ -9,10 +9,10 @@ jobs:
     steps:
       - name: Step 1
         run: |
-          echo "- step 1a\n" >> summary.txt
-          echo "- step 2a\n" >> summary.txt
+          echo "- step 1a" >> summary.txt
+          echo "- step 2a" >> summary.txt
       - name: Step 2
         run: |
-          echo "- step 2\n" >> summary.txt
+          echo "- step 2" >> summary.txt
       - run: |
           cat summary.txt >> $GITHUB_STEP_SUMMARY
