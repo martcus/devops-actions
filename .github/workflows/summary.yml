@@ -9,12 +9,12 @@ jobs:
     steps:
       - name: Step 1
         run: |
-          echo "STEP1_SUMMARY=${{ env.CUSTOM_STEP_SUMMARY }}- step 1a\n" >> $GITHUB_ENV
-          echo "STEP1_SUMMARY=${{ env.CUSTOM_STEP_SUMMARY }}- step 1b\n" >> $GITHUB_ENV
+          echo "STEP1_SUMMARY=${{ env.CUSTOM_STEP_SUMMARY }}- step 1a" >> $GITHUB_ENV
+          echo "STEP1_SUMMARY+=${{ env.CUSTOM_STEP_SUMMARY }}- step 1b" >> $GITHUB_ENV
           echo ${{ env.STEP1_SUMMARY }} >> $GITHUB_STEP_SUMMARY
       - name: Step 2
         run: |
-          echo "STEP2_SUMMARY=${{ env.STEP2_SUMMARY }}- step 2\n" >> $GITHUB_ENV
+          echo "STEP2_SUMMARY=${{ env.STEP2_SUMMARY }}- step 2" >> $GITHUB_ENV
       - run: |
 
           echo "${{ env.STEP1_SUMMARY }}" >> $GITHUB_STEP_SUMMARY
