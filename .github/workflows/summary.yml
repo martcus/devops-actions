@@ -16,5 +16,6 @@ jobs:
       - name: Step 2
         run: |
           echo "| Component 2 | 🔴 |" >> summary.txt
-      - run: |
+      - name: Overall status
+        run: |
           cat summary.txt >> $GITHUB_STEP_SUMMARY
