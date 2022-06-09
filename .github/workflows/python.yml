@@ -10,7 +10,7 @@ jobs:
     steps:
     - 
       name: Setup Python
-      uses: actions/setup-python@v3.1.2
+      uses: actions/setup-python@v4.0.0
     - 
       name: Checkout target branch
       uses: actions/checkout@v2
