@@ -9,7 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          // update file1.txt
           echo "Hello!" >> checkout.cache.txt
           git add checkout.cache.txt
           git config --local user.email "github-actions@users.noreply.github.com"
