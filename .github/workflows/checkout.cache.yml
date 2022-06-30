@@ -8,9 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
       - run: |
-          echo "Hello!" >> checkout.cache.txt
-          git add checkout.cache.txt
+          echo "Hello World!?!" >> checkout.cache.txt
+          git add checkout.cache2.txt
           git config --local user.email "github-actions@users.noreply.github.com"
           git config --local user.name "github-actions"
           git commit -m "updated checkout.cache.txt"
@@ -21,7 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
+      with:
+        ref: ${{ github.ref }}
+        fetch-depth: 0
     # https://github.com/actions/checkout/issues/439
     - name: workaround
       run: git pull origin master
