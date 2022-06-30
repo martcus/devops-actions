@@ -1,0 +1,28 @@
+name: Checkout cache
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          // update file1.txt
+          echo "Hello!" >> checkout.cache.txt
+          git add checkout.cache.txt
+          git config --local user.email "github-actions@users.noreply.github.com"
+          git config --local user.name "github-actions"
+          git commit -m "updated checkout.cache.txt"
+          git push
+
+  deploy:
+    needs: update-version
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: cat publish file
+      run: |
+        # the changes made in job1 are not reflected here
+         cat checkout.cache.txt
