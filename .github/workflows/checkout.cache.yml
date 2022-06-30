@@ -20,7 +20,11 @@ jobs:
     needs: update-version
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+
+    # https://github.com/actions/checkout/issues/439
+    - name: workaround
+      run: git pull origin master
     - name: cat publish file
       run: |
         # the changes made in job1 are not reflected here
