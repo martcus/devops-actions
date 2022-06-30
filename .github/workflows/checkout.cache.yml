@@ -12,7 +12,7 @@ jobs:
           ref: ${{ github.ref }}
           fetch-depth: 0
       - run: |
-          myfile=checkout.cache3.txt
+          myfile=checkout.cache4.txt
           echo "Hello World!?!" >> $myfile
           git add $myfile
           git config --local user.email "github-actions@users.noreply.github.com"
@@ -32,4 +32,4 @@ jobs:
     - name: cat publish file
       run: |
         # the changes made in job1 are not reflected here
-         cat checkout.cache.txt
+         cat checkout.cache4.txt
