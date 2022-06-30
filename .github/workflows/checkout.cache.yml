@@ -12,7 +12,7 @@ jobs:
           ref: ${{ github.ref }}
           fetch-depth: 0
       - run: |
-          myfile=checkout.cache2.txt
+          myfile=checkout.cache3.txt
           echo "Hello World!?!" >> $myfile
           git add $myfile
           git config --local user.email "github-actions@users.noreply.github.com"
@@ -29,8 +29,6 @@ jobs:
         ref: ${{ github.ref }}
         fetch-depth: 0
     # https://github.com/actions/checkout/issues/439
-    - name: workaround
-      run: git pull origin master
     - name: cat publish file
       run: |
         # the changes made in job1 are not reflected here
