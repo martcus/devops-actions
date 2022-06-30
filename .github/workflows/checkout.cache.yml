@@ -12,11 +12,12 @@ jobs:
           ref: ${{ github.ref }}
           fetch-depth: 0
       - run: |
-          echo "Hello World!?!" >> checkout.cache.txt
-          git add checkout.cache2.txt
+          myfile=checkout.cache2.txt
+          echo "Hello World!?!" >> $myfile
+          git add $myfile
           git config --local user.email "github-actions@users.noreply.github.com"
           git config --local user.name "github-actions"
-          git commit -m "updated checkout.cache.txt"
+          git commit -m "updated $myfile"
           git push
 
   deploy:
