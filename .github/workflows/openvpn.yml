@@ -16,4 +16,4 @@ jobs:
           sudo apt-get --assume-yes --no-install-recommends install openvpn          
 
       - name: Run OpenVPN
-        run: openvpn
+        run: openvpn --help
