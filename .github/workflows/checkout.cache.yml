@@ -7,7 +7,7 @@ jobs:
   update-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.0.2
         with:
           ref: ${{ github.ref }}
           fetch-depth: 0
@@ -24,7 +24,7 @@ jobs:
     needs: update-version
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3.0.2
       with:
         ref: ${{ github.ref }}
         fetch-depth: 0
