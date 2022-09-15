@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  openvpn:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,4 +16,4 @@ jobs:
           sudo apt-get --assume-yes --no-install-recommends install openvpn          
 
       - name: Run OpenVPN
-        run: openvpn --help
+        run: openvpn --version
