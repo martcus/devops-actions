@@ -15,16 +15,16 @@ jobs:
           echo '::echo::off'
           echo '::set-output name=action_echo::disabled'
 
-      - name: Set color
+      - name: Random color
         id: random-color-generator
         run: 
-          echo "SELECTED_COLOR=green" >> $GITHUB_OUTPUT
-      - name: Get color
-        run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
-
+          echo "RANDOM_COLOR=green" >> $GITHUB_OUTPUT
       - name: Add color
         id: add-color-generator
         run: 
           echo "MY_FAVORITE_COLOR=blue" >> $GITHUB_OUTPUT
-      - name: Get color
+
+      - name: Get random color
+        run: echo "The selected color is ${{ steps.random-color-generator.outputs.RANDOM_COLOR }}"
+      - name: Get favorite color
         run: echo "My favorite color is ${{ steps.add-color-generator.outputs.MY_FAVORITE_COLOR }}"
