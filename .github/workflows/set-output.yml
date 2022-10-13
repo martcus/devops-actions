@@ -34,5 +34,7 @@ jobs:
         run: 
           echo "FIRST_COLOR=yellow" >> $GITHUB_OUTPUT
           echo "SECOND_COLOR=red" >> $GITHUB_OUTPUT
+      - name: Get Multiple color
+        run:
           echo "The first color is ${{ steps.multiple-color-generator.outputs.FIRST_COLOR }}"
           echo "The second color is ${{ steps.multiple-color-generator.outputs.SECOND_COLOR }}"
