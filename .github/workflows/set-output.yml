@@ -19,6 +19,12 @@ jobs:
         id: random-color-generator
         run: 
           echo "SELECTED_COLOR=green" >> $GITHUB_OUTPUT
-          echo "MY_FAVORITE_COLOR=blue" >> $GITHUB_OUTPUT
       - name: Get color
         run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
+
+      - name: Add color
+        id: add-color-generator
+        run: 
+          echo "MY_FAVORITE_COLOR=blue" >> $GITHUB_OUTPUT
+      - name: Get color
+        run: echo "My favorite color is ${{ steps.add-color-generator.outputs.MY_FAVORITE_COLOR }}"
