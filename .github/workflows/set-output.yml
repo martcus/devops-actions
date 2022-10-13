@@ -28,3 +28,11 @@ jobs:
         run: echo "The selected color is ${{ steps.random-color-generator.outputs.RANDOM_COLOR }}"
       - name: Get favorite color
         run: echo "My favorite color is ${{ steps.add-color-generator.outputs.MY_FAVORITE_COLOR }}"
+
+      - name: Multiple color
+        id: multiple-color-generator
+        run: 
+          echo "FIRST_COLOR=yellow" >> $GITHUB_OUTPUT
+          echo "SECOND_COLOR=red" >> $GITHUB_OUTPUT
+          echo "The first color is ${{ steps.multiple-color-generator.outputs.FIRST_COLOR }}"
+          echo "The second color is ${{ steps.multiple-color-generator.outputs.SECOND_COLOR }}"
