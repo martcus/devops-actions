@@ -17,11 +17,11 @@ jobs:
 
       - name: Random color
         id: random-color-generator
-        run: 
+        run: |
           echo "RANDOM_COLOR=green" >> $GITHUB_OUTPUT
       - name: Add color
         id: add-color-generator
-        run: 
+        run: |
           echo "MY_FAVORITE_COLOR=blue" >> $GITHUB_OUTPUT
 
       - name: Get random color
@@ -31,10 +31,10 @@ jobs:
 
       - name: Multiple color
         id: multiple-color-generator
-        run: 
+        run: |
           echo "FIRST_COLOR=yellow" >> $GITHUB_OUTPUT
           echo "SECOND_COLOR=red" >> $GITHUB_OUTPUT
       - name: Get Multiple color
-        run:
+        run: |
           echo "The first color is ${{ steps.multiple-color-generator.outputs.FIRST_COLOR }}"
           echo "The second color is ${{ steps.multiple-color-generator.outputs.SECOND_COLOR }}"
