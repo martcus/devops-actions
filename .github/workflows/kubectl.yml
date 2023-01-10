@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Kubectl
-        uses: azure/setup-kubectl@v3.1
+        uses: azure/setup-kubectl@v3.2
         with:
           version: "latest"
         id: install
