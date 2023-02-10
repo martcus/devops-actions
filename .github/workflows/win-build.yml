@@ -35,7 +35,7 @@ jobs:
              echo "hello artifact: ${{ github.event.inputs.BRANCH }} ${{ github.event.inputs.SEMVER }}" > myartifact.txt
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         with:
             name: myartifact_${{ steps.set-target-branch.outputs.TARGET_BRANCH }}_${{ github.event.inputs.SEMVER }}
             path: myartifact.txt
